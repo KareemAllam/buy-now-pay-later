@@ -245,9 +245,10 @@ flowchart TD
    Create a `.env.local` file:
 
    ```env
-   NEXTAUTH_URL=http://localhost:3000
    NEXTAUTH_SECRET=your-secret-key-here
-   NEXT_PUBLIC_API_URL=http://localhost:3001
+   NEXT_PUBLIC_API_URL=LOCAL_SERVER_URL
+   NEXT_PUBLIC_API_JSON_SERVER=JSON_SERVER_URL
+
    ```
 
 4. **Start json-server** (in a separate terminal)
@@ -265,7 +266,7 @@ flowchart TD
    ```
 
 6. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+   Navigate to your local server URL, default to: [http://localhost:3000](http://localhost:3000)
 
 ### Development Scripts
 

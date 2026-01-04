@@ -21,14 +21,14 @@ export function UserInstallments({ lang }: { lang: Locale }) {
       header: dict.installments?.institution || "Institution",
       accessorKey: "institution",
       cell: ({ row }) => {
-        return <div>{row.original?.institution?.name[lang]}</div>;
+        return <div>{row.original?.institution?.name?.[lang]}</div>;
       },
     },
     {
       header: dict.installments?.plan || "Plan",
       accessorKey: "plan",
       cell: ({ row }) => {
-        return <div>{row.original?.plan?.name[lang]}</div>;
+        return <div>{row.original?.plan?.name?.[lang]}</div>;
       },
     },
     {

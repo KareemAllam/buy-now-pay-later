@@ -23,14 +23,14 @@ export function UserApplications({ lang }: { lang: Locale }) {
       header: dict.applications.institution,
       accessorKey: "institution.name.en",
       cell: ({ row }) => {
-        return <div>{row.original.institution.name[lang]}</div>;
+        return <div>{row.original.institution?.name?.[lang]}</div>;
       },
     },
     {
       header: dict.applications.plan,
       accessorKey: "plan.name.en",
       cell: ({ row }) => {
-        return <div>{row.original.plan.name[lang]}</div>;
+        return <div>{row.original.plan?.name?.[lang]}</div>;
       },
     },
     {

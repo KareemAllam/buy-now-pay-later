@@ -5,11 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "build:cf": "next build && opennextjs-cloudflare build",
-    "preview": "npm run build:cf && opennextjs-cloudflare preview",
-    "deploy": "npm run build:cf && opennextjs-cloudflare deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "start": "next start"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.7.4",

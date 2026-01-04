@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Application } from "@/types/db-json.types";
 import { getPlan } from "@/services/plans";
+import { createApplication } from "@/services/applications";
 
 export async function createApplicationAction(
   institutionId: string,
@@ -39,36 +40,16 @@ export async function createApplicationAction(
     }
 
     // Create application
-    const applicationData = {
-      user_id: session.user.id,
+    const applicationData: Omit<Application, 'id' | 'created_at'> = {
+      userId: session.user.id,
       institutionId: institutionId,
-      selected_plan_id: planId,
+      planId: planId,
       status: 'pending' as const,
       tuition_amount: plan.total_amount,
       rejection_reason: null,
     };
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_JSON_SERVER}/applications`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(applicationData),
-        cache: 'no-store',
-      }
-    );
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      return {
-        success: false,
-        error: errorData.message || 'Failed to create application',
-      };
-    }
-
-    const application: Application = await response.json();
+    const application = await createApplication(applicationData);
 
     return {
       success: true,

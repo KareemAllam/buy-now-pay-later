@@ -86,20 +86,28 @@
   ],
   "applications": [
     {
-      "id": "app1",
+      "id": "6870",
       "userId": "user_1767528090504_rskogbt06",
-      "institutionId": "inst2",
-      "planId": "plan_template_2",
-      "status": "approved",
-      "tuition_amount": 25000,
-      "rejection_reason": null,
-      "created_at": "2024-01-02T12:00:00Z"
+      "institutionId": "inst1",
+      "planId": "plan_template_1",
+      "status": "pending",
+      "tuition_amount": 12000,
+      "rejection_reason": null
+    },
+    {
+      "id": "7891",
+      "userId": "user_1767528090504_rskogbt06",
+      "institutionId": "inst1",
+      "planId": "plan_template_1",
+      "status": "pending",
+      "tuition_amount": 12000,
+      "rejection_reason": null
     }
   ],
   "installment_plans": [
     {
       "id": "inst_plan_1",
-      "applicationId": "app1",
+      "applicationId": null,
       "planId": "plan_template_2",
       "institutionId": "inst2",
       "userId": "user_1767528090504_rskogbt06",
@@ -109,6 +117,19 @@
       "installment_count": 4,
       "status": "active",
       "created_at": "2024-01-03T09:00:00Z"
+    },
+    {
+      "id": "54b1",
+      "applicationId": null,
+      "planId": "plan_template_2",
+      "institutionId": "inst2",
+      "userId": "user_1767528090504_rskogbt06",
+      "total_amount": 25000,
+      "paid_amount": 123,
+      "remaining_balance": 24877,
+      "installment_count": 4,
+      "status": "active",
+      "created_at": "2026-01-04T17:14:56.285Z"
     }
   ],
   "payments": [

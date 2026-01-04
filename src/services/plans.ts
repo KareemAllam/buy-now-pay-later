@@ -1,12 +1,12 @@
 import { CacheTagKeys } from "@/lib/tagKeys";
 import { PlanTemplate } from "@/types/db-json.types";
-import { NotFoundError } from "@/lib/errors";
+import { NotFoundError, BackendError } from "@/lib/errors";
 import { fetchWithErrorHandling } from "@/lib/fetch-utils";
 
 const API_URL = process.env.NEXT_PUBLIC_API_JSON_SERVER;
 
 export async function getPlansOfInstitution(institution_id: string): Promise<PlanTemplate[]> {
-  return fetchWithErrorHandling<PlanTemplate[]>(
+  const response = await fetchWithErrorHandling<PlanTemplate[]>(
     `${API_URL}/plans?institution_id=${institution_id}`,
     {
       cache: 'force-cache',
@@ -17,19 +17,32 @@ export async function getPlansOfInstitution(institution_id: string): Promise<Pla
       errorContext: 'fetch plans',
     }
   );
+
+  if (!response.success) {
+    throw new BackendError(response.error || 'Failed to fetch plans', response.statusCode, response.statusText);
+  }
+
+  return response.data ?? [];
 }
 
 export async function getPlan(planId: string): Promise<PlanTemplate> {
-  const plan = await fetchWithErrorHandling<PlanTemplate>(
+  const response = await fetchWithErrorHandling<PlanTemplate>(
     `${API_URL}/plans/${planId}`,
     {
       errorContext: 'fetch plan',
     }
   );
 
-  if (!plan) {
+  if (!response.success) {
+    if (response.statusCode === 404) {
+      throw new NotFoundError(response.error || 'Plan not found');
+    }
+    throw new BackendError(response.error || 'Failed to fetch plan', response.statusCode, response.statusText);
+  }
+
+  if (!response.data) {
     throw new NotFoundError('Plan not found');
   }
 
-  return plan;
+  return response.data;
 }

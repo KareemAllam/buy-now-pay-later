@@ -10,7 +10,7 @@ export function useUserApplications() {
 
   return useQuery({
     // @ts-ignore
-    queryKey: [...CacheTagKeys.applications(userId), 'user-applications'] as QueryKey,
+    queryKey: [...CacheTagKeys.applications(userId)] as QueryKey,
     queryFn: () => getUserApplications(userId),
     enabled: !!userId,
     staleTime: 1000 * 60 * 5, // 5 minutes

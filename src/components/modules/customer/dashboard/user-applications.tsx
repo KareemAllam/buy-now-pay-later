@@ -61,14 +61,16 @@ export function UserApplications({ lang }: { lang: Locale }) {
       header: '',
       accessorKey: "actions",
       cell: ({ row }) => {
-        return <div>
-          <Button variant="outline" size="sm" asChild>
-            <Link href={`/${lang}/checkout/${row.original?.id}`}>
-              <WalletIcon className="h-4 w-4" />
-              Checkout
-            </Link>
-          </Button>
-        </div>;
+        if (row.original.status === 'approved') {
+          return <div>
+            <Button variant="outline" size="sm" asChild>
+              <Link href={`/${lang}/checkout/${row.original?.id}`}>
+                <WalletIcon className="h-4 w-4" />
+                Checkout
+              </Link>
+            </Button>
+          </div>;
+        }
       },
     }
 

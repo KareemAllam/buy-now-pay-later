@@ -1,6 +1,7 @@
 import { Payment, InstallmentPlan } from "@/types/db-json.types";
 import { fetchWithErrorHandling } from "@/lib/fetch-utils";
 import { CacheTagKeys } from "@/lib/tagKeys";
+import { BackendError, NotFoundError } from "@/lib/errors";
 
 const API_URL = process.env.NEXT_PUBLIC_API_JSON_SERVER;
 
@@ -8,7 +9,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_JSON_SERVER;
  * Get all payments
  */
 export async function getAllPayments(): Promise<Payment[]> {
-  return fetchWithErrorHandling<Payment[]>(
+  const response = await fetchWithErrorHandling<Payment[]>(
     `${API_URL}/payments`,
     {
       cache: 'force-cache',
@@ -16,13 +17,19 @@ export async function getAllPayments(): Promise<Payment[]> {
       allowEmpty404: true,
     },
   );
+
+  if (!response.success) {
+    throw new BackendError(response.error || 'Failed to fetch payments', response.statusCode, response.statusText);
+  }
+
+  return response.data ?? [];
 }
 
 /**
  * Get a single payment by ID
  */
 export async function getPayment(id: string): Promise<Payment | null> {
-  return fetchWithErrorHandling<Payment | null>(
+  const response = await fetchWithErrorHandling<Payment | null>(
     `${API_URL}/payments/${id}`,
     {
       cache: 'force-cache',
@@ -30,13 +37,22 @@ export async function getPayment(id: string): Promise<Payment | null> {
       allow404: true,
     },
   );
+
+  if (!response.success) {
+    if (response.statusCode === 404) {
+      return null;
+    }
+    throw new BackendError(response.error || 'Failed to fetch payment', response.statusCode, response.statusText);
+  }
+
+  return response.data ?? null;
 }
 
 /**
  * Get all payments for a specific installment plan
  */
 export async function getPaymentsByInstallmentId(installmentId: string): Promise<Payment[]> {
-  return fetchWithErrorHandling<Payment[]>(
+  const response = await fetchWithErrorHandling<Payment[]>(
     `${API_URL}/payments?installmentId=${installmentId}`,
     {
       cache: 'force-cache',
@@ -47,13 +63,19 @@ export async function getPaymentsByInstallmentId(installmentId: string): Promise
       },
     },
   );
+
+  if (!response.success) {
+    throw new BackendError(response.error || 'Failed to fetch payments by installment plan', response.statusCode, response.statusText);
+  }
+
+  return response.data ?? [];
 }
 
 /**
  * Get payments by status
  */
 export async function getPaymentsByStatus(status: Payment['status']): Promise<Payment[]> {
-  return fetchWithErrorHandling<Payment[]>(
+  const response = await fetchWithErrorHandling<Payment[]>(
     `${API_URL}/payments?status=${status}`,
     {
       cache: 'force-cache',
@@ -61,13 +83,19 @@ export async function getPaymentsByStatus(status: Payment['status']): Promise<Pa
       allowEmpty404: true,
     },
   );
+
+  if (!response.success) {
+    throw new BackendError(response.error || 'Failed to fetch payments by status', response.statusCode, response.statusText);
+  }
+
+  return response.data ?? [];
 }
 
 /**
  * Get payments by payment type
  */
 export async function getPaymentsByType(paymentType: Payment['payment_type']): Promise<Payment[]> {
-  return fetchWithErrorHandling<Payment[]>(
+  const response = await fetchWithErrorHandling<Payment[]>(
     `${API_URL}/payments?payment_type=${paymentType}`,
     {
       cache: 'force-cache',
@@ -75,13 +103,19 @@ export async function getPaymentsByType(paymentType: Payment['payment_type']): P
       allowEmpty404: true,
     },
   );
+
+  if (!response.success) {
+    throw new BackendError(response.error || 'Failed to fetch payments by type', response.statusCode, response.statusText);
+  }
+
+  return response.data ?? [];
 }
 
 /**
  * Create a new payment
  */
 export async function createPayment(data: Omit<Payment, 'id'>): Promise<Payment> {
-  return fetchWithErrorHandling<Payment>(
+  const response = await fetchWithErrorHandling<Payment>(
     `${API_URL}/payments`,
     {
       method: 'POST',
@@ -92,13 +126,23 @@ export async function createPayment(data: Omit<Payment, 'id'>): Promise<Payment>
       errorContext: 'create payment',
     },
   );
+
+  if (!response.success) {
+    throw new BackendError(response.error || 'Failed to create payment', response.statusCode, response.statusText);
+  }
+
+  if (!response.data) {
+    throw new BackendError('Failed to create payment: No data returned', response.statusCode, response.statusText);
+  }
+
+  return response.data;
 }
 
 /**
  * Update an existing payment
  */
 export async function updatePayment(id: string, data: Partial<Omit<Payment, 'id' | 'created_at'>>): Promise<Payment> {
-  return fetchWithErrorHandling<Payment>(
+  const response = await fetchWithErrorHandling<Payment>(
     `${API_URL}/payments/${id}`,
     {
       method: 'PATCH',
@@ -109,19 +153,42 @@ export async function updatePayment(id: string, data: Partial<Omit<Payment, 'id'
       errorContext: 'update payment',
     },
   );
+
+  if (!response.success) {
+    throw new BackendError(response.error || 'Failed to update payment', response.statusCode, response.statusText);
+  }
+
+  if (!response.data) {
+    throw new BackendError('Failed to update payment: No data returned', response.statusCode, response.statusText);
+  }
+
+  return response.data;
 }
 
 /**
  * Delete a payment
  */
 export async function deletePayment(id: string): Promise<Payment> {
-  return fetchWithErrorHandling<Payment>(
+  const response = await fetchWithErrorHandling<Payment>(
     `${API_URL}/payments/${id}`,
     {
       method: 'DELETE',
       errorContext: 'delete payment',
     },
   );
+
+  if (!response.success) {
+    if (response.statusCode === 404) {
+      throw new NotFoundError(response.error || 'Payment not found');
+    }
+    throw new BackendError(response.error || 'Failed to delete payment', response.statusCode, response.statusText);
+  }
+
+  if (!response.data) {
+    throw new BackendError('Failed to delete payment: No data returned', response.statusCode, response.statusText);
+  }
+
+  return response.data;
 }
 
 /**
@@ -138,12 +205,12 @@ export async function getUserPayments(userId: string): Promise<Payment[]> {
     },
   );
 
-  if (!installmentsResponse || installmentsResponse.length === 0) {
+  if (!installmentsResponse.success || !installmentsResponse.data || installmentsResponse.data.length === 0) {
     return [];
   }
 
   // Get all installment plan IDs
-  const installmentIds = installmentsResponse.map(plan => plan.id);
+  const installmentIds = installmentsResponse.data.map(plan => plan.id);
   
   // Fetch payments for all installment plans
   const paymentPromises = installmentIds.map(installmentId => 

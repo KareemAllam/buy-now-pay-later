@@ -1,11 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { getDictionary, type Locale } from "../../../dictionaries";
 import { FileText, Loader2 } from "lucide-react";
 import { createApplicationAction } from "./actions";
+import { useQueryClient } from "@tanstack/react-query";
+import { CacheTagKeys } from "@/lib/tagKeys";
+import { useSession } from "next-auth/react";
 
 interface ApplyPlanButtonProps {
   planId: string;
@@ -14,6 +17,9 @@ interface ApplyPlanButtonProps {
 }
 
 export function ApplyPlanButton({ planId, institutionId, lang }: ApplyPlanButtonProps) {
+  const queryClient = useQueryClient();
+  const { data: session } = useSession();
+  const userId = session?.user?.id ?? "";
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -32,9 +38,11 @@ export function ApplyPlanButton({ planId, institutionId, lang }: ApplyPlanButton
         return;
       }
 
-      // Redirect to applications page
-      router.push(`/${lang}/dashboard/applications`);
-      router.refresh();
+      // Invalidate queries to refresh data
+      queryClient.invalidateQueries({ queryKey: [...CacheTagKeys.applications(userId)] });
+      queryClient.invalidateQueries({ queryKey: [...CacheTagKeys.installments(userId), 'user-installments'] });
+
+      router.push(`/${lang}/dashboard`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
       setIsLoading(false);

@@ -1,4 +1,4 @@
-import { getDictionary, hasLocale } from "../dictionaries";
+import { getDictionary, hasLocale } from "@/app/[lang]/dictionaries";
 import { notFound } from "next/navigation";
 import { SignUpForm } from "./signup-form";
 import { Metadata } from "next";

@@ -1,25 +1,13 @@
-import { PlanTemplate } from "@/types/db-json";
+import { PlanTemplate } from "@/types/db-json.types";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, DollarSign, CreditCard } from "lucide-react";
 import Link from "next/link";
 import { getDictionary, type Locale } from "../../dictionaries";
+import { calculateMonthlyPayment, formatCurrency } from "@/utils";
 
-function formatCurrency(amount: number, locale: string = 'en-US'): string {
-  return new Intl.NumberFormat(locale === 'ar' ? 'ar-SA' : 'en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
-
-function calculateMonthlyPayment(totalAmount: number, installmentCount: number): number {
-  return Math.round(totalAmount / installmentCount);
-}
-
-export function InstitutionPlans({ plans, lang }: { plans: PlanTemplate[]; lang: string }) {
-  const dict = getDictionary(lang as Locale);
+export function InstitutionPlans({ plans, lang }: { plans: PlanTemplate[]; lang: Locale }) {
+  const dict = getDictionary(lang);
 
   if (plans.length === 0) {
     return (
@@ -78,7 +66,7 @@ export function InstitutionPlans({ plans, lang }: { plans: PlanTemplate[]; lang:
 
               <CardFooter className="pt-4">
                 <Button asChild className="w-full" variant="default">
-                  <Link href={`/${lang}/apply?plan=${plan.id}`}>
+                  <Link href={`/${lang}/apply/${plan.id}`}>
                     {dict.institutions.selectPlan}
                   </Link>
                 </Button>

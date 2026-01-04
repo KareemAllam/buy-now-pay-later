@@ -7,12 +7,14 @@
 // PROFILE TYPES
 // ============================================
 
-export type ProfileRole = 'user' | 'admin';
+export type UserRole = 'customer' | 'admin';
 
-export interface Profile {
+export interface User {
   id: string;
   full_name: string;
-  role: ProfileRole;
+  password: string;
+  email: string;
+  role: UserRole;
   created_at: string;
 }
 
@@ -44,7 +46,7 @@ export interface Institution {
 
 export interface PlanTemplate {
   id: string;
-  institution_id: string;
+  institutionId: string;
   name: LocalizedString;
   total_amount: number;
   installment_count: number;
@@ -60,7 +62,7 @@ export type ApplicationStatus = 'pending' | 'approved' | 'rejected';
 export interface Application {
   id: string;
   user_id: string;
-  institution_id: string;
+  institutionId: string;
   selected_plan_id: string;
   status: ApplicationStatus;
   tuition_amount: number;
@@ -107,7 +109,7 @@ export interface Payment {
 // ============================================
 
 export interface Database {
-  profiles: Profile[];
+  users: User[];
   institutions: Institution[];
   plans: PlanTemplate[];
   applications: Application[];
@@ -121,7 +123,7 @@ export interface Database {
 
 export interface ApplicationWithDetails extends Application {
   institution?: Institution;
-  profile?: Profile;
+  user?: User;
   selected_plan?: PlanTemplate;
   installment_plan?: InstallmentPlan & {
     payments?: Payment[];
@@ -130,7 +132,7 @@ export interface ApplicationWithDetails extends Application {
 
 export interface InstallmentPlanWithDetails extends InstallmentPlan {
   application?: Application;
-  profile?: Profile;
+  user?: User;
   payments?: Payment[];
 }
 

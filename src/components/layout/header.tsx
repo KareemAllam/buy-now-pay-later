@@ -2,8 +2,9 @@ import { ThemeToggle } from '@/components/theme/theme-toggle';
 import Link from 'next/link';
 import { LanguageToggle } from '../theme/language-toggle';
 import { getDictionary, type Locale } from '@/app/[lang]/dictionaries';
+import { HeaderAuth } from './header-auth';
 
-export function Header({ lang }: { lang: Locale }) {
+export async function Header({ lang }: { lang: Locale }) {
   const dictionary = getDictionary(lang);
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -12,71 +13,11 @@ export function Header({ lang }: { lang: Locale }) {
           <Link href={`/${lang}`} className="flex items-center space-x-2">
             <span className="text-xl font-bold">{dictionary.header.title}</span>
           </Link>
-          {/* {isAuthenticated && (
-            <nav className="flex items-center gap-4">
-              {profile?.role === 'admin' ? (
-                <>
-                  <Link
-                    href="/admin/dashboard"
-                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    Dashboard
-                  </Link>
-                  <Link
-                    href="/admin/schools"
-                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    Schools
-                  </Link>
-                  <Link
-                    href="/admin/applications"
-                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    Applications
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/schools"
-                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    Browse Schools
-                  </Link>
-                  <Link
-                    href="/dashboard"
-                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    Dashboard
-                  </Link>
-                </>
-              )}
-            </nav>
-          )} */}
         </div>
         <div className="flex items-center gap-4">
           <ThemeToggle />
           <LanguageToggle lang={lang} />
-          {/* <LanguageToggle /> */}
-          {/* {isAuthenticated ? (
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground">
-                {profile?.full_name || 'User'}
-              </span>
-              <Button variant="outline" size="sm" onClick={handleSignOut}>
-                Sign Out
-              </Button>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" asChild>
-                <Link href={'/signin'}>Sign In</Link>
-              </Button>
-              <Button size="sm" asChild>
-                <Link href={'/signup'}>Sign Up</Link>
-              </Button>
-            </div>
-          )} */}
+          <HeaderAuth lang={lang} dict={dictionary.auth} />
         </div>
       </div>
     </header>

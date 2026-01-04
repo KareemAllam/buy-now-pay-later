@@ -2,20 +2,15 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { School, FileText, ArrowRight } from 'lucide-react';
-import { getDictionary, hasLocale } from './dictionaries';
-import { notFound } from 'next/navigation';
+import { getDictionary } from './dictionaries';
+import { AwaitedPageParams } from '@/types/app.types';
 
 export async function generateStaticParams() {
   return [{ lang: 'en' }, { lang: 'ar' }]
 }
 
-export default async function Home({ params }: LayoutProps<'/[lang]'>) {
+export default async function Home({ params }: AwaitedPageParams) {
   const { lang } = await params;
-
-  if (!hasLocale(lang)) {
-    notFound();
-  }
-
   const dict = getDictionary(lang);
 
   return (

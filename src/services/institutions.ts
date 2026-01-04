@@ -1,10 +1,10 @@
 import { CacheTagKeys } from "@/lib/tagKeys";
-import { Institution, PlanTemplate } from "@/types/db-json";
+import { Institution, PlanTemplate } from "@/types/db-json.types";
 import { NetworkError, BackendError } from "@/lib/errors";
 
 export async function getVisibleInstitutions(): Promise<Institution[]> {
   try {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/institutions?is_visible=true', {
+    const response = await fetch(process.env.NEXT_PUBLIC_API_JSON_SERVER + '/institutions?is_visible=true', {
       cache: 'force-cache',
     });
     if (!response.ok) {
@@ -36,7 +36,7 @@ export async function getVisibleInstitutions(): Promise<Institution[]> {
 
 export async function getInstitution(id: string): Promise<Institution | null> {
   try {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/institutions/' + id, {
+    const response = await fetch(process.env.NEXT_PUBLIC_API_JSON_SERVER + '/institutions/' + id, {
       cache: 'force-cache',
       next: {
         revalidate: 60 * 60 * 24, // 24 hours
@@ -77,7 +77,7 @@ export async function getInstitution(id: string): Promise<Institution | null> {
 export async function getInstitutionWithPlan(id: string) {
 
   try {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/institutions/' + id + '?_embed=plans', {
+    const response = await fetch(process.env.NEXT_PUBLIC_API_JSON_SERVER + '/institutions/' + id + '?_embed=plans', {
       cache: 'force-cache',
       next: {
         revalidate: 60 * 60 * 24, // 24 hours

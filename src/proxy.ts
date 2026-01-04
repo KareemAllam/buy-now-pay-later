@@ -1,47 +1,74 @@
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { getRequiredRole, isProtectedRoute } from "./config/routes";
 
+// --- CONFIGURATION ---
 const locales = ['en', 'ar'] as const;
 const defaultLocale = 'en';
 
-export type Locale = typeof locales[number];
-
-// Get the preferred locale based on Accept-Language header
-function getLocale(request: NextRequest): Locale {
-  const headers = { 'accept-language': request.headers.get('accept-language') || 'en' };
-  const languages = new Negotiator({ headers }).languages();
-  const matchedLocale = match(languages, locales as unknown as string[], defaultLocale);
-  return matchedLocale as Locale;
-}
-
-export function proxy(request: NextRequest) {
+// --- 1. I18N LAYER ---
+function handleI18n(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
-  // Check if there is any supported locale in the pathname
-  const pathnameHasLocale = locales.some(
+  const hasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  // If locale is already in pathname, continue
-  if (pathnameHasLocale) {
-    return NextResponse.next();
+  if (!hasLocale && !pathname.startsWith('/api/') && !pathname.startsWith('/_next/')) {
+    const headers = { 'accept-language': request.headers.get('accept-language') || 'en' };
+    const languages = new Negotiator({ headers }).languages();
+    const locale = match(languages, locales as unknown as string[], defaultLocale);
+
+    return NextResponse.redirect(new URL(`/${locale}${pathname === '/' ? '' : pathname}`, request.url));
+  }
+  return null; // Continue to next layer
+}
+
+// --- 2. AUTH & ROLE LAYER ---
+async function handleAuth(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const locale = pathname.split('/')[1];
+  const routeWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
+
+  if (!isProtectedRoute(routeWithoutLocale)) {
+    return null;
   }
 
-  // Redirect if there is no locale
-  const locale = getLocale(request);
-  request.nextUrl.pathname = `/${locale}${pathname}`;
+  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 
-  // e.g. incoming request is /institutions
-  // The new URL is now /en/institutions
-  return NextResponse.redirect(request.nextUrl);
+  if (!token) {
+    return NextResponse.redirect(new URL(`/${locale}/signin`, request.url));
+  }
+
+  const requiredRole = getRequiredRole(routeWithoutLocale);
+  const userRole = token.role as string;
+
+  if (requiredRole && userRole !== requiredRole) {
+    const redirectPath = userRole === 'admin'
+      ? `/${locale}/admin/dashboard`
+      : `/${locale}/dashboard`;
+    return NextResponse.redirect(new URL(redirectPath, request.url));
+  }
+
+  return null;
+}
+
+// --- MAIN PROXY ENTRY ---
+export default async function proxy(request: NextRequest) {
+  // Layer 1: Internationalization
+  const i18nResponse = handleI18n(request);
+  if (i18nResponse) return i18nResponse;
+
+  // Layer 2: Authentication
+  const authResponse = await handleAuth(request);
+  if (authResponse) return authResponse;
+
+  // Final: If all layers pass
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    // Skip all internal paths (_next)
-    '/((?!_next|api|favicon.ico|.*\\..*).*)',
-  ],
+  matcher: ['/((?!_next|api|favicon.ico|.*\\..*).*)'],
 };
-

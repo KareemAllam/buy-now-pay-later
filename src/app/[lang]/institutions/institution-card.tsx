@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { School, Users, University, MapPin, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { getDictionary } from "../dictionaries";
-import { Locale } from "@/proxy";
+import { type Locale } from "@/app/[lang]/dictionaries";
 
 function InstitutionTypeBadge({ type, lang }: { type: InstitutionType; lang: Locale }) {
   const dictionary = getDictionary(lang).institutions;

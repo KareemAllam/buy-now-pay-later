@@ -80,5 +80,62 @@
     "details": "The page you requested could not be found. It may have been moved, deleted, or the URL might be incorrect.",
     "browseAllInstitutions": "Browse All Institutions",
     "helpText": "Need help? Check that the URL is correct or browse our available institutions."
+  },
+  "auth": {
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Welcome to your dashboard"
+    },
+    "signIn": {
+      "title": "Sign In",
+      "description": "Sign in to your account to continue",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Sign In",
+      "submitting": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up",
+      "errors": {
+        "invalidCredentials": "Invalid email or password",
+        "generic": "An error occurred. Please try again."
+      }
+    },
+    "signUp": {
+      "title": "Sign Up",
+      "description": "Create a new account to get started",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Enter your full name",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password (min. 6 characters)",
+      "submit": "Sign Up",
+      "submitting": "Creating account...",
+      "hasAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "errors": {
+        "generic": "Failed to create account. Please try again.",
+        "emailExists": "Email already registered",
+        "signInFailed": "Account created but failed to sign in. Please sign in manually."
+      }
+    },
+    "signOut": "Sign Out",
+    "welcome": "Welcome",
+    "signInButton": "Sign In",
+    "signUpButton": "Sign Up"
+  },
+  "apply": {
+    "title": "Apply for Plan",
+    "description": "Review the plan details and submit your application",
+    "submit": "Apply for Plan",
+    "submitting": "Submitting Application...",
+    "totalAmount": "Total amount",
+    "whatHappensNext": "What happens next?",
+    "step1": "Submit your application for review",
+    "step2": "Admin will review your application",
+    "step3": "If approved, proceed to checkout and make down payment",
+    "step4": "Start making monthly payments"
   }
 }

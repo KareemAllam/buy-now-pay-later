@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { AuthSessionProvider } from "@/providers/session-provider";
 import { Header } from "@/components/layout/header";
 import { hasLocale } from "./dictionaries";
 import { notFound } from "next/navigation";
@@ -30,9 +31,11 @@ export default async function RootLayout({
   params: Promise<{ lang: string }>;
 }>) {
   const { lang } = await params;
+
   if (!hasLocale(lang)) {
     notFound();
   }
+
   const isRtl = lang === 'ar';
 
   return (
@@ -40,15 +43,17 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Header lang={lang} />
-          {children}
-        </ThemeProvider>
+        <AuthSessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Header lang={lang} />
+            {children}
+          </ThemeProvider>
+        </AuthSessionProvider>
       </body>
     </html>
   );

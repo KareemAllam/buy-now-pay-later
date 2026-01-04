@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-import { Locale } from '@/proxy';
+import { type Locale } from '@/app/[lang]/dictionaries';
 
 const languages = [
   { code: 'en', name: 'English', flag: '🇺🇸' },

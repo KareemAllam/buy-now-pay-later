@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import { School } from "lucide-react";
 import { getVisibleInstitutions } from "@/services/institutions";
 import { getDictionary, hasLocale } from "../dictionaries";
-import { notFound } from "next/navigation";
 import { InstitutionsTabs } from "./institutions-tabs";
+import { AwaitedPageParams } from "@/types/app.types";
 
 export async function generateMetadata({
   params,
@@ -27,17 +27,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function InstitutionsPage({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}) {
+export default async function InstitutionsPage({ params }: AwaitedPageParams) {
   const { lang } = await params;
-
-  if (!hasLocale(lang)) {
-    notFound();
-  }
-
   const dict = getDictionary(lang);
   const institutions = await getVisibleInstitutions();
 
@@ -51,18 +42,7 @@ export default async function InstitutionsPage({
           </p>
         </div>
 
-        {/* Institutions Tabs */}
-        {institutions.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <School className="h-16 w-16 text-muted-foreground mb-4" />
-            <h2 className="text-2xl font-semibold mb-2">{dict.institutions.noInstitutions}</h2>
-            <p className="text-muted-foreground">
-              {dict.institutions.noInstitutionsDescription}
-            </p>
-          </div>
-        ) : (
-          <InstitutionsTabs institutions={institutions} lang={lang} />
-        )}
+        <InstitutionsTabs institutions={institutions} lang={lang} />
       </article>
     </main>
   );

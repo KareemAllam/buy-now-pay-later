@@ -5,6 +5,7 @@
 export enum ErrorType {
   NETWORK_ERROR = 'NETWORK_ERROR',
   BACKEND_ERROR = 'BACKEND_ERROR',
+  NOT_FOUND_ERROR = 'NOT_FOUND_ERROR',
   UNKNOWN_ERROR = 'UNKNOWN_ERROR',
 }
 
@@ -14,6 +15,15 @@ export class NetworkError extends Error {
   constructor(message: string = 'Network connection failed') {
     super(message);
     this.name = 'NetworkError';
+  }
+}
+
+export class NotFoundError extends Error {
+  type = ErrorType.NOT_FOUND_ERROR;
+
+  constructor(message: string = 'Not found') {
+    super(message);
+    this.name = 'NotFoundError';
   }
 }
 

@@ -3,32 +3,25 @@
  * Central export point for all types
  */
 
-// Re-export commonly used types with shorter names
-export type {
-  ApplicationStatus,
-  PlanStatus,
-  PaymentType,
-  PaymentStatus,
-  InstitutionGender,
-} from './database';
 
-// Re-export db-json types (explicitly to avoid conflicts)
 export type {
-  Profile,
+  User,
   Institution,
   PlanTemplate,
   Application,
   InstallmentPlan,
   Payment,
   Database,
+  InstitutionGender,
+  ApplicationStatus,
+  PaymentType,
+  PaymentStatus,
   ApplicationWithDetails,
   InstallmentPlanWithDetails,
   InstitutionWithPlans,
-  ProfileRole,
+  UserRole as ProfileRole,
   InstitutionType,
   InstallmentPlanStatus,
   LocalizedString,
-  TransformedInstitution,
-  TransformedPlanTemplate,
-} from './db-json';
+} from './db-json.types';
 

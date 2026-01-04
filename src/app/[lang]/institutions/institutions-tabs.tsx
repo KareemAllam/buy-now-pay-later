@@ -1,9 +1,9 @@
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Institution } from "@/types/db-json";
+import { Institution } from "@/types/db-json.types";
 import { School, University } from "lucide-react";
 import { getDictionary } from "../dictionaries";
-import { Locale } from "@/proxy";
+import { type Locale } from "@/app/[lang]/dictionaries";
 import { InstitutionCard } from "./institution-card";
 
 interface InstitutionsTabsProps {

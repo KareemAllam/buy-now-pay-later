@@ -1,0 +1,91 @@
+{
+  "profiles": [
+    {
+      "id": "u1",
+      "full_name": "John Doe",
+      "role": "user",
+      "created_at": "2024-01-01T10:00:00Z"
+    }
+  ],
+  "institutions": [
+    {
+      "id": "inst1",
+      "name": "Green Valley High",
+      "type": "school",
+      "location": "New York",
+      "gender": "mixed",
+      "is_visible": true,
+      "created_at": "2024-01-01T08:00:00Z"
+    },
+    {
+      "id": "inst2",
+      "name": "Tech State University",
+      "type": "university",
+      "location": "California",
+      "gender": "mixed",
+      "is_visible": true,
+      "created_at": "2024-01-01T08:30:00Z"
+    }
+  ],
+  "plans": [
+    {
+      "id": "plan_template_1",
+      "institution_id": "inst1",
+      "name": "Standard High School Year",
+      "total_amount": 12000,
+      "installment_count": 10,
+      "created_at": "2024-01-01T09:00:00Z"
+    },
+    {
+      "id": "plan_template_2",
+      "institution_id": "inst2",
+      "name": "Undergraduate Semester",
+      "total_amount": 25000,
+      "installment_count": 4,
+      "created_at": "2024-01-01T09:00:00Z"
+    },
+    {
+      "id": "plan_template_3",
+      "institution_id": "inst2",
+      "name": "Undergraduate Full Year",
+      "total_amount": 48000,
+      "installment_count": 12,
+      "created_at": "2024-01-01T09:00:00Z"
+    }
+  ],
+  "applications": [
+    {
+      "id": "app1",
+      "user_id": "u1",
+      "institution_id": "inst2",
+      "selected_plan_id": "plan_template_2",
+      "status": "approved",
+      "tuition_amount": 25000,
+      "rejection_reason": null,
+      "created_at": "2024-01-02T12:00:00Z"
+    }
+  ],
+  "installment_plans": [
+    {
+      "id": "inst_plan_1",
+      "application_id": "app1",
+      "user_id": "u1",
+      "total_amount": 25000,
+      "paid_amount": 6250,
+      "remaining_balance": 18750,
+      "installment_count": 4,
+      "status": "active",
+      "created_at": "2024-01-03T09:00:00Z"
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay1",
+      "plan_id": "inst_plan_1",
+      "amount": 6250,
+      "payment_type": "credit_card",
+      "status": "completed",
+      "created_at": "2024-01-03T10:00:00Z"
+    }
+  ]
+}

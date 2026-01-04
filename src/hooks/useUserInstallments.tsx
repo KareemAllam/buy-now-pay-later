@@ -1,5 +1,5 @@
 import { getUserInstallments } from "@/services/installments";
-import { QueryKey, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { CacheTagKeys } from "@/lib/tagKeys";
 
@@ -8,7 +8,7 @@ export function useUserInstallments() {
   const userId = session?.user?.id ?? "";
 
   return useQuery({
-    queryKey: [...CacheTagKeys.installments(userId), 'user-installments'] as QueryKey,
+    queryKey: [...CacheTagKeys.installments(userId), 'user-installments'],
     queryFn: () => getUserInstallments(userId),
   });
 }

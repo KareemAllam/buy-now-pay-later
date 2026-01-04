@@ -1,4 +1,5 @@
 export const CacheTagKeys = {
+  all_institutions: ['all-institutions'],
   institution: (id: string) => ['institution', id],
   institutionPlans: (id: string) => ['institution-plans', id],
 

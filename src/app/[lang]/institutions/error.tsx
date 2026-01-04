@@ -6,7 +6,6 @@ import { AlertCircle, WifiOff, ServerCrash } from 'lucide-react';
 import Link from 'next/link';
 import { getErrorType, ErrorType, isOnline } from '@/lib/errors';
 import { use } from 'react';
-import { getDictionary, Locale } from '../dictionaries';
 
 export default function Error({
   error,
@@ -20,7 +19,6 @@ export default function Error({
   const { lang } = use(params);
   const [isClientOnline, setIsClientOnline] = useState(true);
   const errorType = getErrorType(error);
-  const t = getDictionary(lang as Locale);
 
   useEffect(() => {
     console.error('Institutions page error:', error);
@@ -43,23 +41,25 @@ export default function Error({
       case ErrorType.NETWORK_ERROR:
         return {
           icon: WifiOff,
-          title: t.connectionError,
-          message: isClientOnline ? t.connectionErrorDescription : t.offlineDescription,
-          description: t.connectionErrorDetails,
+          title: 'Connection Error',
+          message: isClientOnline
+            ? 'Unable to connect to the server. Please check your internet connection and try again.'
+            : 'You are currently offline. Please check your internet connection and try again.',
+          description: 'This could be due to a poor network connection or the server being temporarily unavailable.',
         };
       case ErrorType.BACKEND_ERROR:
         return {
           icon: ServerCrash,
-          title: t.serviceError,
-          message: error.message || t.serviceErrorDescription,
-          description: t.serviceErrorDetails,
+          title: 'Service Error',
+          message: error.message || 'The backend service encountered an error while processing your request.',
+          description: 'Our servers are experiencing issues. Please try again in a few moments. If the problem persists, contact support.',
         };
       default:
         return {
           icon: AlertCircle,
-          title: t.somethingWentWrong,
-          message: error.message || t.somethingWentWrongDescription,
-          description: t.genericErrorDetails,
+          title: 'Something Went Wrong',
+          message: error.message || 'An unexpected error occurred.',
+          description: 'Please try again. If the problem persists, contact support.',
         };
     }
   };
@@ -71,9 +71,9 @@ export default function Error({
     <main>
       <article className="container mx-auto px-4 py-8 md:py-12">
         <div className="mb-8 md:mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold mb-3">{t.title}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-3">Browse Institutions</h1>
           <p className="text-muted-foreground text-lg max-w-2xl">
-            {t.description}
+            Explore our network of schools and universities. Find the perfect institution that matches your educational goals and preferences.
           </p>
         </div>
 
@@ -99,16 +99,16 @@ export default function Error({
 
           <div className="flex gap-4">
             <Button onClick={reset} variant="default" disabled={!isClientOnline && errorType === ErrorType.NETWORK_ERROR}>
-              {t.tryAgain}
+              Try again
             </Button>
             <Button asChild variant="outline">
-              <Link href={`/${lang}`}>{t.goHome}</Link>
+              <Link href={`/${lang}`}>Home</Link>
             </Button>
           </div>
 
           {errorType === ErrorType.NETWORK_ERROR && !isClientOnline && (
             <p className="text-xs text-muted-foreground mt-4">
-              {t.waitingForConnection}
+              Waiting for connection...
             </p>
           )}
         </div>

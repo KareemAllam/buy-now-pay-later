@@ -118,3 +118,20 @@ export async function deleteApplication(id: string): Promise<Application> {
 
   return response.data;
 }
+
+export async function getAllApplications(): Promise<TUserApplication[]> {
+  const response = await fetchWithErrorHandling<TUserApplication[]>(
+    `${API_URL}/applications?_embed=plan&_embed=institution`,
+    {
+      cache: 'no-store',
+      errorContext: 'fetch all applications',
+      allowEmpty404: true,
+    },
+  );
+
+  if (!response.success) {
+    throw new BackendError(response.error || 'Failed to fetch all applications', response.statusCode, response.statusText);
+  }
+
+  return response.data ?? [];
+}

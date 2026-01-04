@@ -90,18 +90,70 @@
       "userId": "user_1767528090504_rskogbt06",
       "institutionId": "inst1",
       "planId": "plan_template_1",
-      "status": "pending",
+      "status": "rejected",
       "tuition_amount": 12000,
-      "rejection_reason": null
+      "rejection_reason": "asdasd",
+      "plan": {
+        "id": "plan_template_1",
+        "institutionId": "inst1",
+        "name": {
+          "en": "Standard High School Year",
+          "ar": "السنة الدراسية الثانوية القياسية"
+        },
+        "total_amount": 12000,
+        "installment_count": 10,
+        "created_at": "2024-01-01T09:00:00Z"
+      },
+      "institution": {
+        "id": "inst1",
+        "name": {
+          "en": "Green Valley High",
+          "ar": "مدرسة جرين فالي"
+        },
+        "type": "school",
+        "location": {
+          "en": "New York",
+          "ar": "نيويورك"
+        },
+        "gender": "mixed",
+        "is_visible": true,
+        "created_at": "2024-01-01T08:00:00Z"
+      }
     },
     {
       "id": "7891",
       "userId": "user_1767528090504_rskogbt06",
       "institutionId": "inst1",
       "planId": "plan_template_1",
-      "status": "pending",
+      "status": "approved",
       "tuition_amount": 12000,
-      "rejection_reason": null
+      "rejection_reason": null,
+      "plan": {
+        "id": "plan_template_1",
+        "institutionId": "inst1",
+        "name": {
+          "en": "Standard High School Year",
+          "ar": "السنة الدراسية الثانوية القياسية"
+        },
+        "total_amount": 12000,
+        "installment_count": 10,
+        "created_at": "2024-01-01T09:00:00Z"
+      },
+      "institution": {
+        "id": "inst1",
+        "name": {
+          "en": "Green Valley High",
+          "ar": "مدرسة جرين فالي"
+        },
+        "type": "school",
+        "location": {
+          "en": "New York",
+          "ar": "نيويورك"
+        },
+        "gender": "mixed",
+        "is_visible": true,
+        "created_at": "2024-01-01T08:00:00Z"
+      }
     }
   ],
   "installment_plans": [

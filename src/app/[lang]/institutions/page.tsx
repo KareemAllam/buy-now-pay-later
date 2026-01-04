@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { School } from "lucide-react";
 import { getVisibleInstitutions } from "@/services/institutions";
 import { getDictionary, hasLocale } from "../dictionaries";
 import { InstitutionsTabs } from "./institutions-tabs";

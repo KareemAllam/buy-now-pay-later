@@ -46,3 +46,20 @@ export async function getPlan(planId: string): Promise<PlanTemplate> {
 
   return response.data;
 }
+
+export async function getAllPlans(): Promise<PlanTemplate[]> {
+  const response = await fetchWithErrorHandling<PlanTemplate[]>(
+    `${API_URL}/plans`,
+    {
+      cache: 'no-store',
+      errorContext: 'fetch all plans',
+      allowEmpty404: true,
+    }
+  );
+
+  if (!response.success) {
+    throw new BackendError(response.error || 'Failed to fetch all plans', response.statusCode, response.statusText);
+  }
+
+  return response.data ?? [];
+}

@@ -8,6 +8,7 @@ import { getDictionary, hasLocale } from "../../dictionaries";
 import InstitutionDetails from "./institution-details";
 import { InstitutionPlans } from "./institution-plans";
 import { AwaitedPageParams, PageParams } from "@/types/app.types";
+import Loading from "../loading";
 
 export async function generateStaticParams() {
   const institutions = await getVisibleInstitutions();
@@ -26,9 +27,18 @@ export async function generateMetadata({
 }: {
   params: Promise<{ id: string; lang: string }>;
 }): Promise<Metadata> {
-  const { id, lang } = await params;
+  const resolvedParams = await params;
 
-  if (!hasLocale(lang)) {
+  if (!resolvedParams || typeof resolvedParams !== 'object') {
+    return {
+      title: 'Institution not found',
+      description: 'Institution not found',
+    };
+  }
+
+  const { id, lang } = resolvedParams;
+
+  if (!lang || !id || !hasLocale(lang)) {
     return {
       title: 'Institution not found',
       description: 'Institution not found',
@@ -50,10 +60,14 @@ export async function generateMetadata({
 }
 
 export default async function InstitutionPage({ params }: AwaitedPageParams<{ id: string }>) {
-  const { id, lang } = await params;
+  const pagParams = await params;
 
-  const dict = getDictionary(lang);
-  const institutionWithPlan = await getInstitutionWithPlan(id)
+  if (!pagParams?.lang || !pagParams?.id) {
+    <Loading />
+  }
+
+  const dict = getDictionary(pagParams?.lang);
+  const institutionWithPlan = await getInstitutionWithPlan(pagParams?.id)
 
   if (!institutionWithPlan) {
     return notFound();
@@ -62,17 +76,17 @@ export default async function InstitutionPage({ params }: AwaitedPageParams<{ id
     <main>
       <article className="container mx-auto px-4 py-8 md:py-12">
         <Button asChild variant="ghost" className="mb-8">
-          <Link href={`/${lang}/institutions`}>
+          <Link href={`/${pagParams?.lang}/institutions`}>
             <ArrowLeft className="h-4 w-4" />
             {dict.institutions.backToInstitutions}
           </Link>
         </Button>
 
         <section className="mb-8">
-          <InstitutionDetails institution={institutionWithPlan} lang={lang} />
+          <InstitutionDetails institution={institutionWithPlan} lang={pagParams?.lang} />
         </section>
         <section>
-          <InstitutionPlans plans={institutionWithPlan.plans ?? []} lang={lang} />
+          <InstitutionPlans plans={institutionWithPlan.plans ?? []} lang={pagParams?.lang} />
         </section>
       </article>
     </main>

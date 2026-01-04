@@ -1,16 +1,16 @@
-import { getDictionary, hasLocale } from "../../dictionaries";
-import { notFound } from "next/navigation";
+import { getDictionary, hasLocale } from "../../../../dictionaries";
+import { notFound, redirect } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { redirect } from "next/navigation";
-import { AdminDashboard } from "./admin-dashboard";
+import { getInstitution } from "@/services/institutions";
+import { EditInstitutionForm } from "./edit-institution-form";
 
-export default async function AdminDashboardPage({
+export default async function EditInstitutionPage({
   params,
 }: {
-  params: Promise<{ lang: string }>;
+  params: Promise<{ lang: string; id: string }>;
 }) {
-  const { lang } = await params;
+  const { lang, id } = await params;
 
   if (!hasLocale(lang)) {
     notFound();
@@ -26,18 +26,24 @@ export default async function AdminDashboardPage({
     redirect(`/${lang}/dashboard`);
   }
 
+  const institution = await getInstitution(id);
+
+  if (!institution) {
+    notFound();
+  }
+
   const dict = getDictionary(lang as any);
 
   return (
     <main>
       <article className="container mx-auto px-4 py-8 md:py-12">
         <h1 className="text-3xl md:text-4xl font-bold mb-4">
-          {"Admin Dashboard"}
+          Edit Institution
         </h1>
         <p className="text-muted-foreground mb-6">
-          {"Welcome to the admin dashboard"}
+          Update institution details
         </p>
-        <AdminDashboard lang={lang as any} />
+        <EditInstitutionForm institution={institution} lang={lang as any} />
       </article>
     </main>
   );

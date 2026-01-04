@@ -9,11 +9,8 @@ export function useUserApplications() {
   const userId = session?.user?.id ?? "";
 
   return useQuery({
-    // @ts-ignore
     queryKey: [...CacheTagKeys.applications(userId)] as QueryKey,
     queryFn: () => getUserApplications(userId),
     enabled: !!userId,
-    staleTime: 1000 * 60 * 5, // 5 minutes
-    gcTime: 1000 * 60 * 10, // 10 minutes
   });
 }

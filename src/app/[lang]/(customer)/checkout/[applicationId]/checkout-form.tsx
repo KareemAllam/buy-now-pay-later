@@ -49,7 +49,7 @@ export function CheckoutForm({ applicationId, planId, totalAmount, lang }: Check
       }
 
       // Redirect to dashboard or plans page
-      router.push(`/${lang}/dashboard/plans`);
+      router.push(`/${lang}/dashboard/`);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');

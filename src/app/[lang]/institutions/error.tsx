@@ -6,43 +6,7 @@ import { AlertCircle, WifiOff, ServerCrash } from 'lucide-react';
 import Link from 'next/link';
 import { getErrorType, ErrorType, isOnline } from '@/lib/errors';
 import { use } from 'react';
-
-const translations: Record<string, Record<string, string>> = {
-  en: {
-    title: "Browse Institutions",
-    description: "Explore our network of schools and universities. Find the perfect institution that matches your educational goals and preferences.",
-    connectionError: "Connection Error",
-    connectionErrorDescription: "Unable to connect to the server. Please check your internet connection and try again.",
-    offlineDescription: "You are currently offline. Please check your internet connection and try again.",
-    connectionErrorDetails: "This could be due to a poor network connection or the server being temporarily unavailable.",
-    serviceError: "Service Error",
-    serviceErrorDescription: "The backend service encountered an error while processing your request.",
-    serviceErrorDetails: "Our servers are experiencing issues. Please try again in a few moments. If the problem persists, contact support.",
-    somethingWentWrong: "Something Went Wrong",
-    somethingWentWrongDescription: "An unexpected error occurred while loading institutions.",
-    genericErrorDetails: "Please try again. If the problem persists, contact support.",
-    tryAgain: "Try again",
-    goHome: "Go home",
-    waitingForConnection: "Waiting for connection...",
-  },
-  nl: {
-    title: "Blader door Instellingen",
-    description: "Verken ons netwerk van scholen en universiteiten. Vind de perfecte instelling die aansluit bij uw onderwijsdoelen en voorkeuren.",
-    connectionError: "Verbindingsfout",
-    connectionErrorDescription: "Kan geen verbinding maken met de server. Controleer uw internetverbinding en probeer het opnieuw.",
-    offlineDescription: "U bent momenteel offline. Controleer uw internetverbinding en probeer het opnieuw.",
-    connectionErrorDetails: "Dit kan te wijten zijn aan een slechte netwerkverbinding of dat de server tijdelijk niet beschikbaar is.",
-    serviceError: "Servicefout",
-    serviceErrorDescription: "De backend-service heeft een fout ondervonden bij het verwerken van uw verzoek.",
-    serviceErrorDetails: "Onze servers ondervinden problemen. Probeer het over een paar momenten opnieuw. Als het probleem aanhoudt, neem contact op met ondersteuning.",
-    somethingWentWrong: "Er is iets misgegaan",
-    somethingWentWrongDescription: "Er is een onverwachte fout opgetreden bij het laden van instellingen.",
-    genericErrorDetails: "Probeer het opnieuw. Als het probleem aanhoudt, neem contact op met ondersteuning.",
-    tryAgain: "Probeer opnieuw",
-    goHome: "Ga naar home",
-    waitingForConnection: "Wachten op verbinding...",
-  },
-};
+import { getDictionary, Locale } from '../dictionaries';
 
 export default function Error({
   error,
@@ -56,18 +20,18 @@ export default function Error({
   const { lang } = use(params);
   const [isClientOnline, setIsClientOnline] = useState(true);
   const errorType = getErrorType(error);
-  const t = translations[lang] || translations.en;
+  const t = getDictionary(lang as Locale);
 
   useEffect(() => {
     console.error('Institutions page error:', error);
     setIsClientOnline(isOnline());
-    
+
     const handleOnline = () => setIsClientOnline(true);
     const handleOffline = () => setIsClientOnline(false);
-    
+
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
-    
+
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);

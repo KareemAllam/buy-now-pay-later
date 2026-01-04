@@ -42,7 +42,7 @@ export function SignInForm({ lang, dict }: SignInFormProps) {
       if (result?.ok) {
         // Get the session to determine redirect based on role
         const response = await fetch('/api/auth/session');
-        const session = await response.json();
+        const session = (await response.json()) as { user: { role: string } };
 
         // Redirect based on user role
         if (session?.user?.role === 'admin') {

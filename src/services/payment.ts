@@ -53,7 +53,7 @@ export async function getPayment(id: string): Promise<Payment | null> {
  */
 export async function getPaymentsByInstallmentId(installmentId: string): Promise<Payment[]> {
   const response = await fetchWithErrorHandling<Payment[]>(
-    `${API_URL}/payments?installmentId=${installmentId}`,
+    `${API_URL}/payments?planId=${installmentId}`,
     {
       cache: 'force-cache',
       errorContext: 'fetch payments by installment plan',

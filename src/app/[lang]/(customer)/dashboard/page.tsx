@@ -1,9 +1,23 @@
 import { AwaitedPageParams } from "@/types/app.types";
 import { getDictionary } from "../../dictionaries";
 import { CustomerDashboard } from "./customer-dashboard";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export default async function DashboardPage({ params }: AwaitedPageParams) {
   const { lang } = await params;
+  
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect(`/${lang}/signin`);
+  }
+
+  if (session.user.role !== 'customer') {
+    redirect(`/${lang}/admin/dashboard`);
+  }
+
   const dict = getDictionary(lang);
 
   return (

@@ -57,7 +57,17 @@
       "male": "بنين",
       "female": "بنات",
       "mixed": "مختلط"
-    }
+    },
+    "search": "بحث",
+    "searchPlaceholder": "ابحث بالاسم...",
+    "filterByGender": "تصفية حسب الجنس",
+    "filterByLocation": "تصفية حسب الموقع",
+    "allGenders": "جميع الأجناس",
+    "allLocations": "جميع المواقع",
+    "clearFilters": "مسح الفلاتر",
+    "showingResults": "عرض",
+    "of": "من",
+    "institutions": "مؤسسات"
   },
   "errors": {
     "connectionError": "خطأ في الاتصال",
@@ -139,6 +149,7 @@
     "step4": "ابدأ في دفع الأقساط الشهرية"
   },
   "applications": {
+    "title": "الطلبات",
     "id": "رقم الطلب",
     "institution": "المؤسسة",
     "plan": "الخطة",
@@ -163,5 +174,27 @@
     "errors": {
       "invalidInput": "يرجى ملء جميع الحقول المطلوبة بشكل صحيح"
     }
+  },
+  "installments": {
+    "title": "الأقساط",
+    "institution": "المؤسسة",
+    "plan": "الخطة",
+    "totalAmount": "المبلغ الإجمالي",
+    "paidAmount": "المبلغ المدفوع",
+    "remaining": "الرصيد المتبقي",
+    "progress": "التقدم",
+    "status": "الحالة",
+    "viewDetails": "عرض التفاصيل",
+    "noInstallments": "لم يتم العثور على خطط تقسيط",
+    "awaitingCheckout": "في انتظار الدفع",
+    "paymentHistory": "سجل الدفعات",
+    "nextPayment": "الدفعة القادمة",
+    "payMonthly": "دفع القسط الشهري",
+    "amount": "المبلغ",
+    "payNow": "ادفع الآن",
+    "processing": "جارٍ المعالجة...",
+    "paymentSuccess": "تمت معالجة الدفعة بنجاح",
+    "paymentFailed": "فشلت الدفعة. يرجى المحاولة مرة أخرى.",
+    "noPayments": "لا توجد دفعات بعد"
   }
 }

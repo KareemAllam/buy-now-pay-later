@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import type { NextRequest, ProxyConfig } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { match } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
@@ -69,6 +69,7 @@ export default async function proxy(request: NextRequest) {
   return NextResponse.next();
 }
 
-export const config = {
+export const config: ProxyConfig = {
   matcher: ['/((?!_next|api|favicon.ico|.*\\..*).*)'],
 };
+

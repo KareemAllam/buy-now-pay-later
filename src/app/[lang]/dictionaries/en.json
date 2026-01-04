@@ -57,7 +57,17 @@
       "male": "Boys",
       "female": "Girls",
       "mixed": "Mixed"
-    }
+    },
+    "search": "Search",
+    "searchPlaceholder": "Search by name...",
+    "filterByGender": "Filter by Gender",
+    "filterByLocation": "Filter by Location",
+    "allGenders": "All Genders",
+    "allLocations": "All Locations",
+    "clearFilters": "Clear Filters",
+    "showingResults": "Showing",
+    "of": "of",
+    "institutions": "institutions"
   },
   "errors": {
     "connectionError": "Connection Error",
@@ -139,6 +149,7 @@
     "step4": "Start making monthly payments"
   },
   "applications": {
+    "title": "Applications",
     "id": "Application ID",
     "institution": "Institution",
     "plan": "Plan",
@@ -163,5 +174,27 @@
     "errors": {
       "invalidInput": "Please fill all required fields correctly"
     }
+  },
+  "installments": {
+    "title": "Installments",
+    "institution": "Institution",
+    "plan": "Plan",
+    "totalAmount": "Total Amount",
+    "paidAmount": "Paid Amount",
+    "remaining": "Remaining Balance",
+    "progress": "Progress",
+    "status": "Status",
+    "viewDetails": "View Details",
+    "noInstallments": "No installment plans found",
+    "awaitingCheckout": "Awaiting Checkout",
+    "paymentHistory": "Payment History",
+    "nextPayment": "Next Payment",
+    "payMonthly": "Pay Monthly Installment",
+    "amount": "Amount",
+    "payNow": "Pay Now",
+    "processing": "Processing...",
+    "paymentSuccess": "Payment processed successfully",
+    "paymentFailed": "Payment failed. Please try again.",
+    "noPayments": "No payments yet"
   }
 }

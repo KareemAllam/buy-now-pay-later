@@ -16,18 +16,17 @@ export default async function ApplyPage({ params }: AwaitedPageParams<{ lang: st
   if (!plan) {
     notFound();
   }
+
   const dict = getDictionary(lang as Locale);
 
-  const planName = typeof plan.name === 'object'
-    ? plan.name[lang as keyof typeof plan.name] || plan.name.en
-    : plan.name;
+  const planName = plan?.name?.[lang as keyof typeof plan.name] || plan?.name?.en;
 
-  const monthlyPayment = calculateMonthlyPayment(plan.total_amount, plan.installment_count);
+  const monthlyPayment = calculateMonthlyPayment(plan?.total_amount, plan?.installment_count);
 
   return (
     <div className="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
       {/* Back Button */}
-      <Link href={`/${lang}/institutions/${plan.institutionId}`}>
+      <Link href={`/${lang}/institutions/${plan?.institutionId}`}>
         <Button variant="ghost" className="mb-6 cursor-pointer">
           <ArrowLeft className="mr-2 h-4 w-4" />
           {dict.common.back}

@@ -66,7 +66,7 @@ export async function fetchWithErrorHandling<T>(
     }
 
     // Success response
-    const data = await response.json();
+    const data: T = await response.json();
     return {
       success: true,
       data,

@@ -2,7 +2,7 @@ import { getApplication } from "@/services/applications";
 import { getInstitution } from "@/services/institutions";
 import { getPlan } from "@/services/plans";
 import { AwaitedPageParams } from "@/types/app.types";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { hasLocale, getDictionary, type Locale } from "../../../dictionaries";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckoutForm } from "./checkout-form";
@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import { ApplicationDetails } from "@/components/modules/customer/checkout/application-details";
 import { InstitutionDetails } from "@/components/modules/customer/checkout/institution-details";
 import { PlanDetails } from "@/components/modules/customer/checkout/plan-details";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 
 export default async function CheckoutPage({
   params
@@ -22,6 +24,16 @@ export default async function CheckoutPage({
     notFound();
   }
 
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect(`/${lang}/signin`);
+  }
+
+  if (session.user.role !== 'customer') {
+    redirect(`/${lang}/admin/dashboard`);
+  }
+
   const dict = getDictionary(lang as Locale);
 
 
@@ -29,6 +41,11 @@ export default async function CheckoutPage({
 
   if (!application) {
     notFound();
+  }
+
+  // Verify application belongs to current user
+  if (application.userId !== session.user.id) {
+    redirect(`/${lang}/dashboard`);
   }
 
   const institution = (application as any).institution || await getInstitution(application.institutionId);

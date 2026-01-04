@@ -99,7 +99,7 @@ export type PaymentStatus = 'pending' | 'completed' | 'failed' | 'refunded';
 
 export interface Payment {
   id: string;
-  installmentId: string;
+  planId: string; // References installment_plans.id
   amount: number;
   payment_type: PaymentType;
   status: PaymentStatus;

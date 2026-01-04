@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Locale } from '../../../../app/[lang]/dictionaries';
 import { DataTable } from '@/components/ui/data-table';
+import { TableToolbar } from '@/components/ui/table-toolbar';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ColumnDef } from '@tanstack/react-table';
@@ -20,6 +21,56 @@ export function ApplicationsTab({ lang }: { lang: Locale }) {
   const [processing, setProcessing] = useState<string | null>(null);
   const [rejectionModalOpen, setRejectionModalOpen] = useState(false);
   const [selectedApplication, setSelectedApplication] = useState<TUserApplication | null>(null);
+
+  // Filter states
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [institutionFilter, setInstitutionFilter] = useState<string>('all');
+
+  // Get unique institutions and statuses
+  const uniqueInstitutions = useMemo(() => {
+    const institutions = new Set<string>();
+    applications.forEach(app => {
+      institutions.add(app.institution.name[lang]);
+    });
+    return Array.from(institutions).sort();
+  }, [applications, lang]);
+
+  // Filter applications
+  const filteredApplications = useMemo(() => {
+    let filtered = applications;
+
+    // Search by institution name, plan name, or user ID
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(app =>
+        app.institution.name[lang].toLowerCase().includes(query) ||
+        app.institution.name.en.toLowerCase().includes(query) ||
+        app.plan.name[lang].toLowerCase().includes(query) ||
+        app.userId.toLowerCase().includes(query)
+      );
+    }
+
+    // Filter by status
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter(app => app.status === statusFilter);
+    }
+
+    // Filter by institution
+    if (institutionFilter !== 'all') {
+      filtered = filtered.filter(app => app.institution.name[lang] === institutionFilter);
+    }
+
+    return filtered;
+  }, [applications, searchQuery, statusFilter, institutionFilter, lang]);
+
+  const hasActiveFilters = searchQuery.trim() !== '' || statusFilter !== 'all' || institutionFilter !== 'all';
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setStatusFilter('all');
+    setInstitutionFilter('all');
+  };
 
   const handleApprove = async (applicationId: string) => {
     setProcessing(applicationId);
@@ -171,7 +222,38 @@ export function ApplicationsTab({ lang }: { lang: Locale }) {
 
   return (
     <>
-      <DataTable columns={columns} data={applications} />
+      <TableToolbar
+        searchValue={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search by institution, plan, or user ID..."
+        filters={[
+          {
+            key: 'status',
+            label: 'Status',
+            value: statusFilter,
+            options: [
+              { value: 'all', label: 'All Statuses' },
+              { value: 'pending', label: 'Pending' },
+              { value: 'approved', label: 'Approved' },
+              { value: 'rejected', label: 'Rejected' },
+            ],
+            onChange: setStatusFilter,
+          },
+          {
+            key: 'institution',
+            label: 'Institution',
+            value: institutionFilter,
+            options: [
+              { value: 'all', label: 'All Institutions' },
+              ...uniqueInstitutions.map(inst => ({ value: inst, label: inst })),
+            ],
+            onChange: setInstitutionFilter,
+          },
+        ]}
+        hasActiveFilters={hasActiveFilters}
+        onClearFilters={clearFilters}
+      />
+      <DataTable columns={columns} data={filteredApplications} />
       <RejectionModal
         open={rejectionModalOpen}
         onOpenChange={setRejectionModalOpen}

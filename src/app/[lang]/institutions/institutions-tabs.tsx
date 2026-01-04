@@ -1,3 +1,6 @@
+'use client';
+
+import { useState, useMemo } from 'react';
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Institution } from "@/types/db-json.types";
@@ -5,6 +8,7 @@ import { School, University } from "lucide-react";
 import { getDictionary } from "../dictionaries";
 import { type Locale } from "@/app/[lang]/dictionaries";
 import { InstitutionCard } from "./institution-card";
+import { InstitutionFilters } from "@/components/modules/institutions/institution-filters";
 
 interface InstitutionsTabsProps {
   institutions: Institution[];
@@ -13,22 +17,30 @@ interface InstitutionsTabsProps {
 
 export function InstitutionsTabs({ institutions, lang }: InstitutionsTabsProps) {
   const dictionary = getDictionary(lang).institutions;
+  const [filteredInstitutions, setFilteredInstitutions] = useState<Institution[]>(institutions);
 
-  const schools = institutions.filter(inst => inst.type === 'school');
+  const schools = useMemo(() => filteredInstitutions.filter(inst => inst.type === 'school'), [filteredInstitutions]);
   const schoolsCount = schools.length;
 
-  const universities = institutions.filter(inst => inst.type === 'university');
+  const universities = useMemo(() => filteredInstitutions.filter(inst => inst.type === 'university'), [filteredInstitutions]);
   const universitiesCount = universities.length;
 
   return (
     <section>
+      {/* Filters */}
+      <InstitutionFilters
+        institutions={institutions}
+        lang={lang}
+        onFilteredChange={setFilteredInstitutions}
+      />
+
       {/* Tabs */}
       <Tabs defaultValue="all" className="mb-6" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
         <TabsList>
           <TabsTrigger value="all" className="gap-2">
             {dictionary.all}
             <Badge variant="secondary" className="ml-1 h-5 min-w-5 px-1.5 text-xs">
-              {institutions.length}
+              {filteredInstitutions.length}
             </Badge>
           </TabsTrigger>
 
@@ -53,17 +65,17 @@ export function InstitutionsTabs({ institutions, lang }: InstitutionsTabsProps) 
         {/* Tab Content */}
         <TabsContent value="all" className="mt-6">
           {
-            schoolsCount > 0 ? (
+            filteredInstitutions.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {institutions.map((institution) => (
+                {filteredInstitutions.map((institution) => (
                   <InstitutionCard key={institution.id} institution={institution} lang={lang} />
                 ))}
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center py-16 text-center">
                 <School className="h-16 w-16 text-muted-foreground mb-4" />
-                <h2 className="text-2xl font-semibold mb-2">{dictionary.noSchools}</h2>
-                <p className="text-muted-foreground">{dictionary.checkBack}</p>
+                <h2 className="text-2xl font-semibold mb-2">{dictionary.noInstitutions}</h2>
+                <p className="text-muted-foreground">{dictionary.noInstitutionsDescription}</p>
               </div>
             )
           }

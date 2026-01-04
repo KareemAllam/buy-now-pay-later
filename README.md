@@ -387,18 +387,31 @@ fetch(url, {
 ### Cloudflare Pages Setup
 
 1. **Build Configuration**
-   - Build command: `npm run build`
+   - Build command: `npm run build` or `pnpm build`
    - Output directory: `.next`
 
 2. **Environment Variables**
-   - Set `NEXTAUTH_SECRET` in Cloudflare dashboard
-   - Set `NEXTAUTH_URL` to production domain
-   - Set `NEXT_PUBLIC_API_URL` to json-server URL (or real API)
+   - Set `NEXTAUTH_SECRET` in Cloudflare dashboard (generate a secure random string)
+   - Set `NEXTAUTH_URL` to production domain (e.g., `https://your-app.pages.dev`)
+   - Set `NEXT_PUBLIC_API_URL` to your API URL
+   - Set `NEXT_PUBLIC_API_JSON_SERVER` to json-server URL (for mock backend)
 
 3. **Deployment**
-   - Connect GitHub repository
-   - Configure build settings
+   - Connect GitHub repository to Cloudflare Pages
+   - Configure build settings as above
    - Deploy automatically on push to main branch
+
+### Test Credentials
+
+**Admin Account:**
+- Email: `admin@mail.com`
+- Password: `password`
+
+**Customer Account:**
+- Email: `customer@mail.com`
+- Password: `password`
+
+> **Note**: These are test credentials for development. Change them in production!
 
 ## 📚 Additional Resources
 
@@ -421,7 +434,40 @@ This is a demonstration project. For production use, consider:
 
 ## 📄 License
 
-[Your License Here]
+MIT License - See LICENSE file for details
+
+---
+
+## ✅ Completed Features
+
+### Required Features (Assignment Checklist)
+
+- ✅ **Authentication**: Sign up, Sign in, Sign out (for both Customer and Admin)
+- ✅ **Institution Browsing**: Search and filter by name, gender, location
+- ✅ **Application Flow**: Apply for installment plans, view status (pending/approved/rejected)
+- ✅ **Admin Management**: 
+  - Manage institutions (create, edit, toggle visibility)
+  - Review applications (approve/reject with reason)
+  - View all installment plans with filtering
+- ✅ **Checkout & Down Payment**: Complete payment flow after approval
+- ✅ **Installment Management**: 
+  - View installment details (total/paid/remaining)
+  - Pay monthly installments
+  - Track progress and payment history
+- ✅ **Installment Lifecycle**: Proper status flow (submitted → active → completed)
+
+### Bonus Features
+
+- ✅ **Internationalization (i18n)**: English and Arabic support
+- ✅ **Responsive Design**: Mobile-first approach
+- ✅ **Dark Mode**: Theme support via next-themes
+
+### Future Enhancements
+
+- [ ] Unit/Component/E2E Testing
+- [ ] Framer Motion animations
+- [ ] Toast notifications (replacing alerts)
+- [ ] Enhanced error handling and loading states
 
 ---
 

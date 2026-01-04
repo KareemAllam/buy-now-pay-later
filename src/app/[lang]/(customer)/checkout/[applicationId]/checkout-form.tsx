@@ -42,15 +42,13 @@ export function CheckoutForm({ applicationId, planId, totalAmount, lang }: Check
     try {
       const result = await processDownPaymentAction(applicationId, planId, downPaymentNum);
 
+      setIsLoading(false);
       if (!result.success) {
         setError(result.error || 'Failed to process payment');
-        setIsLoading(false);
         return;
       }
 
-      // Redirect to dashboard or plans page
-      router.push(`/${lang}/dashboard/`);
-      router.refresh();
+      window.location.href = `/${lang}/dashboard`;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
       setIsLoading(false);

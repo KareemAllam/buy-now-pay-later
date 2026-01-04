@@ -9,7 +9,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Institution } from '@/types/db-json.types';
 import { Eye, EyeOff, Edit, Plus } from 'lucide-react';
 import { toggleInstitutionVisibilityAction } from '../../../../app/[lang]/admin/dashboard/actions';
-import { formatCurrency } from '@/utils/currency';
 import { useAdminAllInstitutions } from '@/hooks/useAdminAllInstitutions';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -125,7 +124,7 @@ export function InstitutionsTab({ lang }: { lang: Locale }) {
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
-        <Button onClick={() => router.push(`/${lang}/admin/institutions`)}>
+        <Button onClick={() => router.push(`/${lang}/admin/institutions/create`)}>
           <Plus className="h-4 w-4 mr-2" />
           Create Institution
         </Button>

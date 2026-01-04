@@ -9,16 +9,16 @@ export async function generateMetadata({
 }: {
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
-  const { lang } = await params;
+  const pageParams = await params;
 
-  if (!hasLocale(lang)) {
+  if (!hasLocale(pageParams?.lang)) {
     return {
       title: "Browse our Institutions",
       description: "Browse our network of schools and universities",
     };
   }
 
-  const dict = getDictionary(lang);
+  const dict = getDictionary(pageParams?.lang);
 
   return {
     title: dict.institutions.title,
@@ -27,8 +27,8 @@ export async function generateMetadata({
 }
 
 export default async function InstitutionsPage({ params }: AwaitedPageParams) {
-  const { lang } = await params;
-  const dict = getDictionary(lang);
+  const pageParams = await params;
+  const dict = getDictionary(pageParams?.lang);
   const institutions = await getVisibleInstitutions();
 
   return (
@@ -41,7 +41,7 @@ export default async function InstitutionsPage({ params }: AwaitedPageParams) {
           </p>
         </div>
 
-        <InstitutionsTabs institutions={institutions} lang={lang} />
+        <InstitutionsTabs institutions={institutions} lang={pageParams?.lang} />
       </article>
     </main>
   );

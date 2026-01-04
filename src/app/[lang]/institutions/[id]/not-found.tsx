@@ -9,19 +9,19 @@ export default async function NotFound({
 }: {
   params: Promise<{ lang: string }>;
 }) {
-  const { lang } = await params;
+  const pagParams = await params;
 
-  if (!hasLocale(lang)) {
+  if (!pagParams?.lang || !hasLocale(pagParams?.lang)) {
     notFound();
   }
 
-  const dict = getDictionary(lang);
+  const dict = getDictionary(pagParams?.lang);
 
   return (
     <main>
       <article className="container mx-auto px-4 py-8 md:py-12">
         <Button asChild variant="outline" className="mb-8">
-          <Link href={`/${lang}/institutions`}>
+          <Link href={`/${pagParams?.lang}/institutions`}>
             <ArrowLeft className="h-4 w-4" />
             {dict.institutions.backToInstitutions}
           </Link>
@@ -47,7 +47,7 @@ export default async function NotFound({
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Button asChild variant="default" size="lg">
-              <Link href={`/${lang}/institutions`}>
+              <Link href={`/${pagParams?.lang}/institutions`}>
                 <Building2 className="h-4 w-4" />
                 {dict.notFound.browseAllInstitutions}
               </Link>

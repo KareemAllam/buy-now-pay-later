@@ -30,16 +30,16 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ lang: string }>;
 }>) {
-  const { lang } = await params;
+  const pageParams = await params;
 
-  if (!hasLocale(lang)) {
+  if (!hasLocale(pageParams?.lang)) {
     notFound();
   }
 
-  const isRtl = lang === 'ar';
+  const isRtl = pageParams?.lang === 'ar';
 
   return (
-    <html lang={lang} suppressHydrationWarning dir={isRtl ? 'rtl' : 'ltr'}>
+    <html lang={pageParams?.lang} suppressHydrationWarning dir={isRtl ? 'rtl' : 'ltr'}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -50,7 +50,7 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Header lang={lang} />
+            <Header lang={pageParams?.lang} />
             {children}
           </ThemeProvider>
         </AuthSessionProvider>

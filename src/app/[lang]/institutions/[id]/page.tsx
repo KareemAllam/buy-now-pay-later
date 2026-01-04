@@ -1,14 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { getInstitutionWithPlan, getVisibleInstitutions } from "@/services/institutions";
 import { ArrowLeft } from "lucide-react";
-import { Metadata } from "next";
+import { Metadata, ResolvingMetadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getDictionary, hasLocale } from "../../dictionaries";
+import { getDictionary, hasLocale, Locale } from "../../dictionaries";
 import InstitutionDetails from "./institution-details";
 import { InstitutionPlans } from "./institution-plans";
 import { AwaitedPageParams, PageParams } from "@/types/app.types";
 import Loading from "../loading";
+
+type Props = {
+  params: Promise<{ id: string; lang: Locale }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
 
 export async function generateStaticParams() {
   const institutions = await getVisibleInstitutions();
@@ -22,21 +28,12 @@ export async function generateStaticParams() {
   );
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ id: string; lang: string }>;
-}): Promise<Metadata> {
-  const resolvedParams = await params;
-
-  if (!resolvedParams || typeof resolvedParams !== 'object') {
-    return {
-      title: 'Institution not found',
-      description: 'Institution not found',
-    };
-  }
-
-  const { id, lang } = resolvedParams;
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const { id, lang } = await params
 
   if (!lang || !id || !hasLocale(lang)) {
     return {

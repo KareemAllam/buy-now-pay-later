@@ -137,5 +137,31 @@
     "step2": "Admin will review your application",
     "step3": "If approved, proceed to checkout and make down payment",
     "step4": "Start making monthly payments"
+  },
+  "applications": {
+    "id": "Application ID",
+    "institution": "Institution",
+    "plan": "Plan",
+    "status": "Status",
+    "created_at": "Created At"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "description": "Review your application details and complete your payment",
+    "applicationDetails": "Application Details",
+    "institutionDetails": "Institution",
+    "planDetails": "Payment Plan",
+    "payment": "Payment",
+    "completePayment": "Complete your payment to activate your plan",
+    "downPayment": "Down Payment",
+    "downPaymentHint": "Enter the amount you want to pay upfront",
+    "acceptTerms": "I accept the terms and conditions",
+    "termsDescription": "By checking this box, you agree to the payment terms and conditions",
+    "submit": "Complete Payment",
+    "processing": "Processing Payment...",
+    "tuitionAmount": "Tuition Amount",
+    "errors": {
+      "invalidInput": "Please fill all required fields correctly"
+    }
   }
 }

@@ -24,8 +24,6 @@ export default async function ApplyPage({ params }: AwaitedPageParams<{ lang: st
 
   const monthlyPayment = calculateMonthlyPayment(plan.total_amount, plan.installment_count);
 
-  console.log({ plan })
-
   return (
     <div className="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
       {/* Back Button */}

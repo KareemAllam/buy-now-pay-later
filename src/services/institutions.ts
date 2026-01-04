@@ -1,117 +1,45 @@
 import { CacheTagKeys } from "@/lib/tagKeys";
 import { Institution, PlanTemplate } from "@/types/db-json.types";
-import { NetworkError, BackendError } from "@/lib/errors";
+import { fetchWithErrorHandling } from "@/lib/fetch-utils";
+
+const API_URL = process.env.NEXT_PUBLIC_API_JSON_SERVER;
 
 export async function getVisibleInstitutions(): Promise<Institution[]> {
-  try {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_JSON_SERVER + '/institutions?is_visible=true', {
+  return fetchWithErrorHandling<Institution[]>(
+    `${API_URL}/institutions?is_visible=true`,
+    {
       cache: 'force-cache',
-    });
-    if (!response.ok) {
-      throw new BackendError(
-        `Failed to fetch institutions: ${response.statusText}`,
-        response.status,
-        response.statusText
-      );
+      errorContext: 'fetch institutions',
     }
-    const institutions: Array<Institution> = await response.json();
-    return institutions;
-  } catch (error) {
-    console.error('Failed to fetch institutions:', error);
-
-    // Re-throw if it's already a custom error
-    if (error instanceof NetworkError || error instanceof BackendError) {
-      throw error;
-    }
-
-    // Check if it's a network error
-    if (error instanceof TypeError && error.message.includes('fetch')) {
-      throw new NetworkError('Unable to connect to the server. Please check your internet connection.');
-    }
-
-    // Default to network error for unknown fetch failures
-    throw new NetworkError('Network connection failed. Please check your internet connection.');
-  }
+  );
 }
 
 export async function getInstitution(id: string): Promise<Institution | null> {
-  try {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_JSON_SERVER + '/institutions/' + id, {
+  return fetchWithErrorHandling<Institution | null>(
+    `${API_URL}/institutions/${id}`,
+    {
       cache: 'force-cache',
       next: {
-        revalidate: 60 * 60 * 24, // 24 hours
+        revalidate: 60 * 60 * 24,
         tags: CacheTagKeys.institution(id),
       },
-    });
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        return null; // Not found is expected, return null
-      }
-      throw new BackendError(
-        `Failed to fetch institution: ${response.statusText}`,
-        response.status,
-        response.statusText
-      );
+      allow404: true,
+      errorContext: 'fetch institution',
     }
-    const institution: Institution = await response.json();
-    return institution;
-  } catch (error) {
-    console.error('Failed to fetch institution:', error);
-
-    // Re-throw if it's already a custom error
-    if (error instanceof NetworkError || error instanceof BackendError) {
-      throw error;
-    }
-
-    // Check if it's a network error
-    if (error instanceof TypeError && error.message.includes('fetch')) {
-      throw new NetworkError('Unable to connect to the server. Please check your internet connection.');
-    }
-
-    // Default to network error for unknown fetch failures
-    throw new NetworkError('Network connection failed. Please check your internet connection.');
-  }
+  );
 }
 
-export async function getInstitutionWithPlan(id: string) {
-
-  try {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_JSON_SERVER + '/institutions/' + id + '?_embed=plans', {
+export async function getInstitutionWithPlan(id: string): Promise<Institution & { plans: PlanTemplate[] } | null> {
+  return fetchWithErrorHandling<Institution & { plans: PlanTemplate[] } | null>(
+    `${API_URL}/institutions/${id}?_embed=plans`,
+    {
       cache: 'force-cache',
       next: {
-        revalidate: 60 * 60 * 24, // 24 hours
+        revalidate: 60 * 60 * 24,
         tags: CacheTagKeys.institution(id),
       },
-    });
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        return null; // Not found is expected, return null
-      }
-      throw new BackendError(
-        `Failed to fetch institution: ${response.statusText}`,
-        response.status,
-        response.statusText
-      );
+      allow404: true,
+      errorContext: 'fetch institution with plans',
     }
-    const institution: Institution & { plans: PlanTemplate[] } = await response.json();
-    return institution;
-  } catch (error) {
-    console.error('Failed to fetch institution:', error);
-
-    // Re-throw if it's already a custom error
-    if (error instanceof NetworkError || error instanceof BackendError) {
-      throw error;
-    }
-
-    // Check if it's a network error
-    if (error instanceof TypeError && error.message.includes('fetch')) {
-      throw new NetworkError('Unable to connect to the server. Please check your internet connection.');
-    }
-
-    // Default to network error for unknown fetch failures
-    throw new NetworkError('Network connection failed. Please check your internet connection.');
-  }
-
+  );
 }

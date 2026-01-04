@@ -43,7 +43,7 @@ export function SignInForm({ lang, dict }: SignInFormProps) {
         // Get the session to determine redirect based on role
         const response = await fetch('/api/auth/session');
         const session = await response.json();
-        
+
         // Redirect based on user role
         if (session?.user?.role === 'admin') {
           router.push(`/${lang}/admin/dashboard`);
@@ -70,6 +70,7 @@ export function SignInForm({ lang, dict }: SignInFormProps) {
       <div className="space-y-2">
         <Label htmlFor="email">{dict.signIn.email}</Label>
         <Input
+          name='email'
           id="email"
           type="email"
           value={email}
@@ -83,6 +84,7 @@ export function SignInForm({ lang, dict }: SignInFormProps) {
       <div className="space-y-2">
         <Label htmlFor="password">{dict.signIn.password}</Label>
         <Input
+          name='password'
           id="password"
           type="password"
           value={password}

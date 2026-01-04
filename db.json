@@ -2,11 +2,19 @@
   "users": [
     {
       "id": "u1",
-      "full_name": "John Doe",
+      "full_name": "Admin",
+      "role": "admin",
+      "email": "admin@mail.com",
       "password": "password",
-      "email": "john.doe@example.com",
-      "role": "customer",
       "created_at": "2024-01-01T10:00:00Z"
+    },
+    {
+      "id": "user_1767528090504_rskogbt06",
+      "full_name": "John Doe",
+      "role": "customer",
+      "email": "customer@mail.com",
+      "password": "password",
+      "created_at": "2026-01-04T12:01:30.504Z"
     }
   ],
   "institutions": [
@@ -79,9 +87,9 @@
   "applications": [
     {
       "id": "app1",
-      "user_id": "u1",
+      "userId": "user_1767528090504_rskogbt06",
       "institutionId": "inst2",
-      "selected_plan_id": "plan_template_2",
+      "planId": "plan_template_2",
       "status": "approved",
       "tuition_amount": 25000,
       "rejection_reason": null,
@@ -91,11 +99,13 @@
   "installment_plans": [
     {
       "id": "inst_plan_1",
-      "application_id": "app1",
-      "user_id": "u1",
+      "applicationId": "app1",
+      "planId": "plan_template_2",
+      "institutionId": "inst2",
+      "userId": "user_1767528090504_rskogbt06",
       "total_amount": 25000,
-      "paid_amount": 6250,
-      "remaining_balance": 18750,
+      "paid_amount": 6500,
+      "remaining_balance": 18500,
       "installment_count": 4,
       "status": "active",
       "created_at": "2024-01-03T09:00:00Z"
@@ -104,11 +114,19 @@
   "payments": [
     {
       "id": "pay1",
-      "plan_id": "inst_plan_1",
+      "planId": "inst_plan_1",
       "amount": 6250,
       "payment_type": "credit_card",
       "status": "completed",
       "created_at": "2024-01-03T10:00:00Z"
+    },
+    {
+      "id": "0361",
+      "planId": "inst_plan_1",
+      "amount": 250,
+      "payment_type": "down_payment",
+      "status": "completed",
+      "created_at": "2026-01-04T16:44:46.205Z"
     }
   ]
 }

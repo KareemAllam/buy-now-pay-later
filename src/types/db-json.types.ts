@@ -61,9 +61,9 @@ export type ApplicationStatus = 'pending' | 'approved' | 'rejected';
 
 export interface Application {
   id: string;
-  user_id: string;
+  userId: string;
   institutionId: string;
-  selected_plan_id: string;
+  planId: string;
   status: ApplicationStatus;
   tuition_amount: number;
   rejection_reason: string | null;
@@ -78,8 +78,10 @@ export type InstallmentPlanStatus = 'approved_awaiting_checkout' | 'active' | 'c
 
 export interface InstallmentPlan {
   id: string;
-  application_id: string;
-  user_id: string;
+  applicationId: string;
+  planId: string;
+  institutionId: string;
+  userId: string;
   total_amount: number;
   paid_amount: number;
   remaining_balance: number;
@@ -97,7 +99,7 @@ export type PaymentStatus = 'pending' | 'completed' | 'failed' | 'refunded';
 
 export interface Payment {
   id: string;
-  plan_id: string;
+  installmentId: string;
   amount: number;
   payment_type: PaymentType;
   status: PaymentStatus;

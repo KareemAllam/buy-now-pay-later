@@ -29,21 +29,41 @@ export async function generateMetadata({
 export default async function InstitutionsPage({ params }: AwaitedPageParams) {
   const pageParams = await params;
   const dict = getDictionary(pageParams?.lang);
-  const institutions = await getVisibleInstitutions();
+  
+  try {
+    const institutions = await getVisibleInstitutions();
 
-  return (
-    <main>
-      <article className="container mx-auto px-4 py-8 md:py-12">
-        <div className="mb-8 md:mb-12 flex flex-col items-start">
-          <h1 className="text-3xl md:text-4xl font-bold mb-3">{dict.institutions.title}</h1>
-          <p className="text-muted-foreground text-lg max-w-2xl">
-            {dict.institutions.description}
-          </p>
-        </div>
+    return (
+      <main>
+        <article className="container mx-auto px-4 py-8 md:py-12">
+          <div className="mb-8 md:mb-12 flex flex-col items-start">
+            <h1 className="text-3xl md:text-4xl font-bold mb-3">{dict.institutions.title}</h1>
+            <p className="text-muted-foreground text-lg max-w-2xl">
+              {dict.institutions.description}
+            </p>
+          </div>
 
-        <InstitutionsTabs institutions={institutions} lang={pageParams?.lang} />
-      </article>
-    </main>
-  );
+          <InstitutionsTabs institutions={institutions} lang={pageParams?.lang} />
+        </article>
+      </main>
+    );
+  } catch (error) {
+    // If API is unavailable during build, return empty institutions list
+    console.error('Failed to fetch institutions:', error);
+    return (
+      <main>
+        <article className="container mx-auto px-4 py-8 md:py-12">
+          <div className="mb-8 md:mb-12 flex flex-col items-start">
+            <h1 className="text-3xl md:text-4xl font-bold mb-3">{dict.institutions.title}</h1>
+            <p className="text-muted-foreground text-lg max-w-2xl">
+              {dict.institutions.description}
+            </p>
+          </div>
+
+          <InstitutionsTabs institutions={[]} lang={pageParams?.lang} />
+        </article>
+      </main>
+    );
+  }
 }
 

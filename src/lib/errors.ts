@@ -73,6 +73,7 @@ export function getErrorType(error: unknown): ErrorType {
 
     // Check if error has status property (likely a fetch error)
     if ('status' in error && typeof (error as any).status === 'number') {
+      console.log(error)
       return ErrorType.BACKEND_ERROR;
     }
   }

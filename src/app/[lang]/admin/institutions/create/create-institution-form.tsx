@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Locale } from '../../../dictionaries';
-import { createInstitution } from '@/services/institutions';
+import { createInstitutionAction } from '../actions';
 import { InstitutionType, InstitutionGender } from '@/types/db-json.types';
 import { AlertCircle } from 'lucide-react';
 
@@ -44,7 +44,13 @@ export function CreateInstitutionForm({ lang }: { lang: Locale }) {
         is_visible: isVisible,
       };
 
-      await createInstitution(institutionData);
+      const result = await createInstitutionAction(institutionData, lang);
+      
+      if (!result.success) {
+        setError(result.error || 'Failed to create institution');
+        setIsLoading(false);
+        return;
+      }
       
       // Redirect to admin dashboard
       router.push(`/${lang}/admin/dashboard`);

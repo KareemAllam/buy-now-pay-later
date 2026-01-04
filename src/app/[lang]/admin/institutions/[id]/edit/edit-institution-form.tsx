@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Locale } from '../../../../dictionaries';
-import { updateInstitution } from '@/services/institutions';
+import { updateInstitutionAction } from '../../actions';
 import { Institution, InstitutionType, InstitutionGender } from '@/types/db-json.types';
 import { AlertCircle } from 'lucide-react';
 
@@ -31,7 +31,6 @@ export function EditInstitutionForm({ institution, lang }: { institution: Instit
 
     try {
       const institutionData = {
-        ...institution,
         name: {
           en: nameEn.trim(),
           ar: nameAr.trim(),
@@ -45,7 +44,13 @@ export function EditInstitutionForm({ institution, lang }: { institution: Instit
         is_visible: isVisible,
       };
 
-      await updateInstitution(institution.id, institutionData);
+      const result = await updateInstitutionAction(institution.id, institutionData, lang);
+      
+      if (!result.success) {
+        setError(result.error || 'Failed to update institution');
+        setIsLoading(false);
+        return;
+      }
       
       // Redirect to admin dashboard
       router.push(`/${lang}/admin/dashboard`);

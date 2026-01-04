@@ -1,14 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { getInstitutionWithPlan, getVisibleInstitutions } from "@/services/institutions";
+import { getInstitution, getVisibleInstitutions } from "@/services/institutions";
+import { getPlansOfInstitution } from "@/services/plans";
+import { AwaitedPageParams } from "@/types/app.types";
 import { ArrowLeft } from "lucide-react";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDictionary, hasLocale, Locale } from "../../dictionaries";
+import Loading from "../loading";
 import InstitutionDetails from "./institution-details";
 import { InstitutionPlans } from "./institution-plans";
-import { AwaitedPageParams, PageParams } from "@/types/app.types";
-import Loading from "../loading";
 
 type Props = {
   params: Promise<{ id: string; lang: Locale }>
@@ -29,10 +30,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent: ResolvingMetadata
+  { params }: Props,
 ): Promise<Metadata> {
-  // read route params
   const { id, lang } = await params
 
   if (!lang || !id || !hasLocale(lang)) {
@@ -42,8 +41,10 @@ export async function generateMetadata(
     };
   }
 
-  const institution = await getInstitutionWithPlan(id);
-  if (!institution) {
+  const institution = await getInstitution(id);
+  const plans = await getPlansOfInstitution(id);
+
+  if (!institution || !plans) {
     const dict = getDictionary(lang);
     return {
       title: dict.notFound.title,
@@ -64,9 +65,12 @@ export default async function InstitutionPage({ params }: AwaitedPageParams<{ id
   }
 
   const dict = getDictionary(pagParams?.lang);
-  const institutionWithPlan = await getInstitutionWithPlan(pagParams?.id)
 
-  if (!institutionWithPlan) {
+  const institution = await getInstitution(pagParams?.id);
+  const plans = await getPlansOfInstitution(pagParams?.id);
+
+
+  if (!institution || !plans) {
     return notFound();
   }
   return (
@@ -80,10 +84,10 @@ export default async function InstitutionPage({ params }: AwaitedPageParams<{ id
         </Button>
 
         <section className="mb-8">
-          <InstitutionDetails institution={institutionWithPlan} lang={pagParams?.lang} />
+          <InstitutionDetails institution={institution} lang={pagParams?.lang} />
         </section>
         <section>
-          <InstitutionPlans plans={institutionWithPlan.plans ?? []} lang={pagParams?.lang} />
+          <InstitutionPlans plans={plans ?? []} lang={pagParams?.lang} />
         </section>
       </article>
     </main>

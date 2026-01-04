@@ -57,13 +57,13 @@ export default function Error({
   useEffect(() => {
     console.error('Institution detail page error:', error);
     setIsClientOnline(isOnline());
-    
+
     const handleOnline = () => setIsClientOnline(true);
     const handleOffline = () => setIsClientOnline(false);
-    
+
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
-    
+
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
@@ -82,6 +82,7 @@ export default function Error({
       case ErrorType.BACKEND_ERROR:
         return {
           icon: ServerCrash,
+          error,
           title: t.serviceError,
           message: error.message || t.serviceErrorDescription,
           description: t.serviceErrorDetails,

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Locale } from '../../../../dictionaries';
-import { deleteInstitution } from '@/services/institutions';
+import { deleteInstitutionAction } from '../../actions';
 import { Institution } from '@/types/db-json.types';
 import { AlertCircle, Trash2 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,7 +20,13 @@ export function DeleteInstitutionForm({ institution, lang }: { institution: Inst
     setIsLoading(true);
 
     try {
-      await deleteInstitution(institution.id);
+      const result = await deleteInstitutionAction(institution.id, lang);
+      
+      if (!result.success) {
+        setError(result.error || 'Failed to delete institution');
+        setIsLoading(false);
+        return;
+      }
       
       // Redirect to admin dashboard
       router.push(`/${lang}/admin/dashboard`);

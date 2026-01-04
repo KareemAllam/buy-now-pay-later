@@ -49,6 +49,7 @@ export default function Error({
         };
       case ErrorType.BACKEND_ERROR:
         return {
+          error,
           icon: ServerCrash,
           title: 'Service Error',
           message: error.message || 'The backend service encountered an error while processing your request.',

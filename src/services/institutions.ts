@@ -10,6 +10,9 @@ export async function getVisibleInstitutions(): Promise<Institution[]> {
     `${API_URL}/institutions?is_visible=true`,
     {
       cache: 'force-cache',
+      next: {
+        tags: [...CacheTagKeys.all_institutions],
+      },
       errorContext: 'fetch institutions',
       allowEmpty404: true,
     }

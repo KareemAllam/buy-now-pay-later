@@ -1,15 +1,29 @@
 import { Button } from '@/components/ui/button';
 import { SearchX, ArrowLeft, Building2 } from 'lucide-react';
 import Link from 'next/link';
+import { getDictionary, hasLocale } from '../../dictionaries';
+import { notFound } from 'next/navigation';
 
-export default function NotFound() {
+export default async function NotFound({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+
+  if (!hasLocale(lang)) {
+    notFound();
+  }
+
+  const dict = await getDictionary(lang);
+
   return (
     <main>
       <article className="container mx-auto px-4 py-8 md:py-12">
         <Button asChild variant="outline" className="mb-8">
-          <Link href="/institutions">
+          <Link href={`/${lang}/institutions`}>
             <ArrowLeft className="h-4 w-4" />
-            Back to Institutions
+            {dict.institutions.backToInstitutions}
           </Link>
         </Button>
 
@@ -21,28 +35,28 @@ export default function NotFound() {
             </div>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Institution Not Found</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">{dict.notFound.title}</h1>
 
           <p className="text-foreground font-medium mb-3 max-w-md text-lg">
-            The institution you're looking for doesn't exist or may have been removed.
+            {dict.notFound.description}
           </p>
 
           <p className="text-muted-foreground text-sm mb-8 max-w-lg">
-            The page you requested could not be found. It may have been moved, deleted, or the URL might be incorrect.
+            {dict.notFound.details}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Button asChild variant="default" size="lg">
-              <Link href="/institutions">
+              <Link href={`/${lang}/institutions`}>
                 <Building2 className="h-4 w-4" />
-                Browse All Institutions
+                {dict.notFound.browseAllInstitutions}
               </Link>
             </Button>
           </div>
 
           <div className="mt-12 pt-8 border-t w-full max-w-md">
             <p className="text-xs text-muted-foreground">
-              Need help? Check that the URL is correct or browse our available institutions.
+              {dict.notFound.helpText}
             </p>
           </div>
         </div>

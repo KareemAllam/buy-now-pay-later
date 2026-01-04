@@ -3,9 +3,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Calendar, DollarSign, CreditCard } from "lucide-react";
 import Link from "next/link";
+import { getDictionary } from "../../dictionaries";
 
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('en-US', {
+function formatCurrency(amount: number, locale: string = 'en-US'): string {
+  return new Intl.NumberFormat(locale === 'nl' ? 'nl-NL' : 'en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 0,
@@ -17,14 +18,16 @@ function calculateMonthlyPayment(totalAmount: number, installmentCount: number):
   return Math.round(totalAmount / installmentCount);
 }
 
-export async function InstitutionPlans({ plans }: { plans: PlanTemplate[] }) {
+export async function InstitutionPlans({ plans, lang }: { plans: PlanTemplate[]; lang: string }) {
+  const dict = await getDictionary(lang as any);
+
   if (plans.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
         <CreditCard className="h-12 w-12 text-muted-foreground mb-4" />
-        <h3 className="text-lg font-semibold mb-2">No plans available</h3>
+        <h3 className="text-lg font-semibold mb-2">{dict.institutions.noPlansAvailable}</h3>
         <p className="text-muted-foreground text-sm">
-          This institution doesn't have any payment plans yet.
+          {dict.institutions.noPlansDescription}
         </p>
       </div>
     );
@@ -32,7 +35,7 @@ export async function InstitutionPlans({ plans }: { plans: PlanTemplate[] }) {
 
   return (
     <div className="mt-8">
-      <h2 className="text-2xl font-bold mb-6">Available Payment Plans</h2>
+      <h2 className="text-2xl font-bold mb-6">{dict.institutions.availablePlans}</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {plans.map((plan) => {
           const monthlyPayment = calculateMonthlyPayment(plan.total_amount, plan.installment_count);
@@ -45,7 +48,7 @@ export async function InstitutionPlans({ plans }: { plans: PlanTemplate[] }) {
               <CardHeader>
                 <CardTitle className="text-xl font-bold">{plan.name}</CardTitle>
                 <CardDescription className="text-base font-semibold text-foreground mt-2">
-                  {formatCurrency(plan.total_amount)}
+                  {formatCurrency(plan.total_amount, lang)}
                 </CardDescription>
               </CardHeader>
 
@@ -54,16 +57,16 @@ export async function InstitutionPlans({ plans }: { plans: PlanTemplate[] }) {
                   <div className="flex items-center gap-3 text-sm text-muted-foreground">
                     <Calendar className="h-4 w-4" />
                     <span>
-                      <span className="font-semibold text-foreground">{plan.installment_count}</span> monthly payments
+                      <span className="font-semibold text-foreground">{plan.installment_count}</span> {dict.institutions.monthlyPayments}
                     </span>
                   </div>
 
                   <div className="flex items-center gap-3 text-sm">
                     <DollarSign className="h-4 w-4 text-primary" />
                     <div>
-                      <span className="text-muted-foreground">Monthly payment:</span>
+                      <span className="text-muted-foreground">{dict.institutions.monthlyPayment}</span>
                       <span className="ml-2 font-bold text-lg text-foreground">
-                        {formatCurrency(monthlyPayment)}
+                        {formatCurrency(monthlyPayment, lang)}
                       </span>
                     </div>
                   </div>
@@ -72,8 +75,8 @@ export async function InstitutionPlans({ plans }: { plans: PlanTemplate[] }) {
 
               <CardFooter className="pt-4">
                 <Button asChild className="w-full" variant="default">
-                  <Link href={`/apply?plan=${plan.id}`}>
-                    Select Plan
+                  <Link href={`/${lang}/apply?plan=${plan.id}`}>
+                    {dict.institutions.selectPlan}
                   </Link>
                 </Button>
               </CardFooter>
@@ -84,3 +87,4 @@ export async function InstitutionPlans({ plans }: { plans: PlanTemplate[] }) {
     </div>
   );
 }
+

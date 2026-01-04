@@ -5,31 +5,56 @@ import { Button } from "@/components/ui/button";
 import { School, Users, University, MapPin, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-function InstitutionTypeBadge({ type }: { type: InstitutionType }) {
+const translations: Record<string, Record<string, Record<string, string>>> = {
+  en: {
+    type: {
+      university: "University",
+      school: "School",
+    },
+    gender: {
+      male: "Boys",
+      female: "Girls",
+      mixed: "Mixed",
+    },
+    viewDetails: "View Details",
+  },
+  nl: {
+    type: {
+      university: "Universiteit",
+      school: "School",
+    },
+    gender: {
+      male: "Jongens",
+      female: "Meisjes",
+      mixed: "Gemengd",
+    },
+    viewDetails: "Details bekijken",
+  },
+};
+
+function InstitutionTypeBadge({ type, lang }: { type: InstitutionType; lang: string }) {
+  const t = translations[lang] || translations.en;
   return (
     <Badge variant={type === 'university' ? 'default' : 'secondary'}>
       <School className="mr-1 h-3 w-3" />
-      {type === 'university' ? 'University' : 'School'}
+      {t.type[type]}
     </Badge>
   );
 }
 
-function GenderBadge({ gender }: { gender: InstitutionGender }) {
-  const genderLabels: Record<InstitutionGender, string> = {
-    male: 'Boys',
-    female: 'Girls',
-    mixed: 'Mixed',
-  };
-
+function GenderBadge({ gender, lang }: { gender: InstitutionGender; lang: string }) {
+  const t = translations[lang] || translations.en;
   return (
     <Badge variant="outline">
       <Users className="mr-1 h-3 w-3" />
-      {genderLabels[gender]}
+      {t.gender[gender]}
     </Badge>
   );
 }
 
-export function InstitutionCard({ institution }: { institution: Institution }) {
+export function InstitutionCard({ institution, lang }: { institution: Institution; lang: string }) {
+  const t = translations[lang] || translations.en;
+  
   return (
     <Card
       key={institution.id}
@@ -66,8 +91,8 @@ export function InstitutionCard({ institution }: { institution: Institution }) {
             <span className="line-clamp-1">{institution.location}</span>
           </div>
           <div className="flex flex-wrap gap-2">
-            <InstitutionTypeBadge type={institution.type} />
-            <GenderBadge gender={institution.gender} />
+            <InstitutionTypeBadge type={institution.type} lang={lang} />
+            <GenderBadge gender={institution.gender} lang={lang} />
           </div>
         </CardDescription>
 
@@ -79,8 +104,8 @@ export function InstitutionCard({ institution }: { institution: Institution }) {
             size="sm"
             className="rounded-full"
           >
-            <Link href={`/institutions/${institution.id}`} className="gap-1.5">
-              View Details
+            <Link href={`/${lang}/institutions/${institution.id}`} className="gap-1.5">
+              {t.viewDetails}
               <ArrowRight className="h-4 w-4 group-hover/button:translate-x-0.5 transition-transform" />
             </Link>
           </Button>
@@ -89,3 +114,4 @@ export function InstitutionCard({ institution }: { institution: Institution }) {
     </Card>
   );
 }
+

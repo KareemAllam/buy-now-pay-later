@@ -1,16 +1,17 @@
-'use client';
-
-import Link from 'next/link';
+import { Dictionary } from '@/app/[lang]/dictionaries';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
+import Link from 'next/link';
+import { LanguageToggle } from '../theme/language-toggle';
 
-export function Header() {
+
+export async function Header({ dict }: { dict: Dictionary }) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="container mx-auto px-4 flex h-16 items-center justify-between">
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold">BNPL Education</span>
+            <span className="text-xl font-bold">{dict.header.title}</span>
           </Link>
           {/* {isAuthenticated && (
             <nav className="flex items-center gap-4">
@@ -56,6 +57,8 @@ export function Header() {
         </div>
         <div className="flex items-center gap-4">
           <ThemeToggle />
+          <LanguageToggle />
+          {/* <LanguageToggle /> */}
           {/* {isAuthenticated ? (
             <div className="flex items-center gap-4">
               <span className="text-sm text-muted-foreground">

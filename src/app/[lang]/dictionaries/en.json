@@ -1,0 +1,84 @@
+{
+  "header": {
+    "title": "BNPL Education"
+  },
+  "common": {
+    "back": "Back",
+    "home": "Home",
+    "tryAgain": "Try again",
+    "loading": "Loading...",
+    "error": "Error",
+    "notFound": "Not Found"
+  },
+  "home": {
+    "title": "Buy Now, Pay Later",
+    "subtitle": "Education Financing",
+    "description": "Make education accessible with flexible installment plans. Browse schools and universities, apply for financing, and pay in convenient monthly installments.",
+    "browseSchools": "Browse Schools",
+    "getStarted": "Get Started",
+    "howItWorks": "How It Works",
+    "browseSchoolsTitle": "Browse Schools and Universities",
+    "browseSchoolsDescription": "Explore our network of schools and universities to find the perfect one for you",
+    "browseNow": "Browse Now",
+    "applyForFinancing": "Apply for Financing",
+    "applyForFinancingDescription": "Submit your application for an installment plan",
+    "applyNow": "Apply Now",
+    "readyToGetStarted": "Ready to Get Started?",
+    "readyDescription": "Join thousands of students and parents who are making education more affordable with our flexible payment plans.",
+    "createAccount": "Create Account",
+    "signIn": "Sign In"
+  },
+  "institutions": {
+    "title": "Browse Institutions",
+    "description": "Explore our network of schools and universities. Find the perfect institution that matches your educational goals and preferences.",
+    "noInstitutions": "No institutions available",
+    "noInstitutionsDescription": "Check back later for new institutions.",
+    "all": "All",
+    "schools": "Schools",
+    "universities": "Universities",
+    "noSchools": "No schools available",
+    "noUniversities": "No universities available",
+    "checkBack": "Check back later for new institutions.",
+    "viewDetails": "View Details",
+    "backToInstitutions": "Back to Institutions",
+    "availablePlans": "Available Payment Plans",
+    "noPlansAvailable": "No plans available",
+    "noPlansDescription": "This institution doesn't have any payment plans yet.",
+    "selectPlan": "Select Plan",
+    "monthlyPayments": "monthly payments",
+    "monthlyPayment": "Monthly payment:",
+    "location": "Location",
+    "availablePlansCount": "available plans",
+    "type": {
+      "university": "University",
+      "school": "School"
+    },
+    "gender": {
+      "male": "Boys",
+      "female": "Girls",
+      "mixed": "Mixed"
+    }
+  },
+  "errors": {
+    "connectionError": "Connection Error",
+    "connectionErrorDescription": "Unable to connect to the server. Please check your internet connection and try again.",
+    "offlineDescription": "You are currently offline. Please check your internet connection and try again.",
+    "connectionErrorDetails": "This could be due to a poor network connection or the server being temporarily unavailable.",
+    "serviceError": "Service Error",
+    "serviceErrorDescription": "The backend service encountered an error while processing your request.",
+    "serviceErrorDetails": "Our servers are experiencing issues. Please try again in a few moments. If the problem persists, contact support.",
+    "somethingWentWrong": "Something Went Wrong",
+    "somethingWentWrongDescription": "An unexpected error occurred.",
+    "genericErrorDetails": "Please try again. If the problem persists, contact support.",
+    "failedToLoadInstitutions": "Failed to load institutions",
+    "failedToLoadInstitution": "Failed to load institution",
+    "waitingForConnection": "Waiting for connection..."
+  },
+  "notFound": {
+    "title": "Institution Not Found",
+    "description": "The institution you're looking for doesn't exist or may have been removed.",
+    "details": "The page you requested could not be found. It may have been moved, deleted, or the URL might be incorrect.",
+    "browseAllInstitutions": "Browse All Institutions",
+    "helpText": "Need help? Check that the URL is correct or browse our available institutions."
+  }
+}

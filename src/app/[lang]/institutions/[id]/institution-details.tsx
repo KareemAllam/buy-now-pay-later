@@ -2,7 +2,33 @@ import { Badge } from "@/components/ui/badge";
 import { Institution, InstitutionGender, InstitutionType } from "@/types";
 import { MapPin, School, University, Users } from "lucide-react";
 
-function InstitutionTypeBadge({ type }: { type: InstitutionType }) {
+const translations: Record<string, Record<string, Record<string, string>>> = {
+  en: {
+    type: {
+      university: "University",
+      school: "School",
+    },
+    gender: {
+      male: "Boys",
+      female: "Girls",
+      mixed: "Mixed",
+    },
+  },
+  nl: {
+    type: {
+      university: "Universiteit",
+      school: "School",
+    },
+    gender: {
+      male: "Jongens",
+      female: "Meisjes",
+      mixed: "Gemengd",
+    },
+  },
+};
+
+function InstitutionTypeBadge({ type, lang }: { type: InstitutionType; lang: string }) {
+  const t = translations[lang] || translations.en;
   return (
     <Badge variant={type === 'university' ? 'default' : 'secondary'} className="text-sm px-3 py-1">
       {type === 'university' ? (
@@ -10,29 +36,22 @@ function InstitutionTypeBadge({ type }: { type: InstitutionType }) {
       ) : (
         <School className="mr-1.5 h-3.5 w-3.5" />
       )}
-      {type === 'university' ? 'University' : 'School'}
+      {t.type[type]}
     </Badge>
   );
 }
 
-function GenderBadge({ gender }: { gender: InstitutionGender }) {
-  const genderLabels: Record<InstitutionGender, string> = {
-    male: 'Boys',
-    female: 'Girls',
-    mixed: 'Mixed',
-  };
-
+function GenderBadge({ gender, lang }: { gender: InstitutionGender; lang: string }) {
+  const t = translations[lang] || translations.en;
   return (
     <Badge variant="outline" className="text-sm px-3 py-1">
       <Users className="mr-1.5 h-3.5 w-3.5" />
-      {genderLabels[gender]}
+      {t.gender[gender]}
     </Badge>
   );
 }
 
-
-export default function InstitutionDetails({ institution }: { institution: Institution }) {
-  const { name, location, type, gender } = institution;
+export default function InstitutionDetails({ institution, lang }: { institution: Institution; lang: string }) {
   return (
     <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-6">
       <div className="flex-1">
@@ -44,10 +63,11 @@ export default function InstitutionDetails({ institution }: { institution: Insti
           <span className="text-lg">{institution.location}</span>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <InstitutionTypeBadge type={institution.type} />
-          <GenderBadge gender={institution.gender} />
+          <InstitutionTypeBadge type={institution.type} lang={lang} />
+          <GenderBadge gender={institution.gender} lang={lang} />
         </div>
       </div>
     </div>
   );
 }
+

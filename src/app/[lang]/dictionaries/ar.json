@@ -1,0 +1,84 @@
+{
+  "header": {
+    "title": "تمويل التعليم"
+  },
+  "common": {
+    "back": "رجوع",
+    "home": "الرئيسية",
+    "tryAgain": "حاول مرة أخرى",
+    "loading": "جار التحميل...",
+    "error": "خطأ",
+    "notFound": "غير موجود"
+  },
+  "home": {
+    "title": "اشتري الآن وادفع لاحقًا",
+    "subtitle": "تمويل التعليم",
+    "description": "اجعل التعليم متاحًا بخطط تقسيط مرنة. تصفح المدارس والجامعات، قدم طلب التمويل، وادفع على أقساط شهرية مريحة.",
+    "browseSchools": "تصفح المدارس",
+    "getStarted": "ابدأ الآن",
+    "howItWorks": "كيف يعمل",
+    "browseSchoolsTitle": "تصفح المدارس والجامعات",
+    "browseSchoolsDescription": "اكتشف شبكتنا من المدارس والجامعات وابحث عن الأنسب لك",
+    "browseNow": "تصفح الآن",
+    "applyForFinancing": "تقديم طلب تمويل",
+    "applyForFinancingDescription": "قدّم طلبك لخطة التقسيط",
+    "applyNow": "قدّم الآن",
+    "readyToGetStarted": "جاهز للبدء؟",
+    "readyDescription": "انضم إلى آلاف الطلاب والأهالي الذين جعلوا التعليم أكثر توفيرًا عبر خطط التقسيط المرنة.",
+    "createAccount": "إنشاء حساب",
+    "signIn": "تسجيل الدخول"
+  },
+  "institutions": {
+    "title": "تصفح المؤسسات",
+    "description": "اكتشف شبكتنا من المدارس والجامعات. ابحث عن المؤسسة المثالية التي تلبي أهدافك وتفضيلاتك التعليمية.",
+    "noInstitutions": "لا توجد مؤسسات متاحة",
+    "noInstitutionsDescription": "عد لاحقًا لمؤسسات جديدة.",
+    "all": "الكل",
+    "schools": "المدارس",
+    "universities": "الجامعات",
+    "noSchools": "لا توجد مدارس متاحة",
+    "noUniversities": "لا توجد جامعات متاحة",
+    "checkBack": "عد لاحقًا لمؤسسات جديدة.",
+    "viewDetails": "عرض التفاصيل",
+    "backToInstitutions": "العودة إلى المؤسسات",
+    "availablePlans": "خطط دفعات متوفرة",
+    "noPlansAvailable": "لا توجد خطط متاحة",
+    "noPlansDescription": "هذه المؤسسة لا تملك خطط دفع بعد.",
+    "selectPlan": "اختر الخطة",
+    "monthlyPayments": "دفعات شهرية",
+    "monthlyPayment": "دفعة شهرية:",
+    "location": "الموقع",
+    "availablePlansCount": "خطط متوفرة",
+    "type": {
+      "university": "جامعة",
+      "school": "مدرسة"
+    },
+    "gender": {
+      "male": "بنين",
+      "female": "بنات",
+      "mixed": "مختلط"
+    }
+  },
+  "errors": {
+    "connectionError": "خطأ في الاتصال",
+    "connectionErrorDescription": "تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.",
+    "offlineDescription": "أنت غير متصل حالياً بالإنترنت. يرجى التحقق من الاتصال والمحاولة مرة أخرى.",
+    "connectionErrorDetails": "قد يكون ذلك بسبب ضعف الشبكة أو توقف الخادم مؤقتاً.",
+    "serviceError": "خطأ في الخدمة",
+    "serviceErrorDescription": "حدث خطأ في الخدمة عند معالجة طلبك.",
+    "serviceErrorDetails": "خوادمنا تواجه بعض المشاكل. يرجى المحاولة بعد قليل. إذا استمرت المشكلة، تواصل مع الدعم.",
+    "somethingWentWrong": "حدث خطأ ما",
+    "somethingWentWrongDescription": "حدث خطأ غير متوقع.",
+    "genericErrorDetails": "يرجى المحاولة مرة أخرى. إذا استمرت المشكلة، تواصل مع الدعم.",
+    "failedToLoadInstitutions": "تعذر تحميل المؤسسات",
+    "failedToLoadInstitution": "تعذر تحميل المؤسسة",
+    "waitingForConnection": "بانتظار الاتصال..."
+  },
+  "notFound": {
+    "title": "المؤسسة غير موجودة",
+    "description": "المؤسسة التي تبحث عنها غير موجودة أو قد تم حذفها.",
+    "details": "الصفحة التي طلبتها غير موجودة. ربما تم نقلها أو حذفها أو أن العنوان غير صحيح.",
+    "browseAllInstitutions": "تصفح جميع المؤسسات",
+    "helpText": "تحتاج للمساعدة؟ تحقق من صحة الرابط أو تصفح المؤسسات المتاحة."
+  }
+}

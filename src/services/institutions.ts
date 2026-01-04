@@ -49,7 +49,7 @@ export async function getInstitution(id: string): Promise<Institution | null> {
 
 export async function getInstitutionWithPlan(id: string): Promise<Institution & { plans: PlanTemplate[] } | null> {
   const response = await fetchWithErrorHandling<Institution & { plans: PlanTemplate[] } | null>(
-    `${API_URL}/institutions/${id}?_embed=plans`,
+    `${API_URL}/institutions/${id}?_expand=plans`,
     {
       cache: 'force-cache',
       next: {

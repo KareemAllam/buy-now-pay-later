@@ -9,7 +9,7 @@ export type TUserApplication = Application & { institution: Institution, plan: P
 
 export async function getUserApplications(userId: string): Promise<TUserApplication[]> {
   const response = await fetchWithErrorHandling<TUserApplication[]>(
-    `${API_URL}/applications?user_id=${userId}?&_embed=plan&_embed=institution`,
+    `${API_URL}/applications?user_id=${userId}?&_expand=plan&_expand=institution`,
     {
       next: {
         tags: CacheTagKeys.applications(userId),
@@ -28,7 +28,7 @@ export async function getUserApplications(userId: string): Promise<TUserApplicat
 
 export async function getApplication(id: string): Promise<TUserApplication> {
   const response = await fetchWithErrorHandling<TUserApplication>(
-    `${API_URL}/applications/${id}?&_embed=plan&_embed=institution`,
+    `${API_URL}/applications/${id}?&_expand=plan&_expand=institution`,
     {
       errorContext: 'fetch application',
     },
@@ -121,7 +121,7 @@ export async function deleteApplication(id: string): Promise<Application> {
 
 export async function getAllApplications(): Promise<TUserApplication[]> {
   const response = await fetchWithErrorHandling<TUserApplication[]>(
-    `${API_URL}/applications?_embed=plan&_embed=institution`,
+    `${API_URL}/applications?_expand=plan&_expand=institution`,
     {
       cache: 'no-store',
       errorContext: 'fetch all applications',

@@ -12,7 +12,7 @@ export type TUserInstallment = InstallmentPlan & {
 
 export async function getUserInstallments(userId: string): Promise<TUserInstallment[]> {
   const response = await fetchWithErrorHandling<TUserInstallment[]>(
-    `${API_URL}/installment_plans?userId=${userId}&_embed=institution&_embed=plan`,
+    `${API_URL}/installment_plans?userId=${userId}&_expand=institution&_expand=plan`,
     {
       cache: 'force-cache',
       errorContext: 'fetch user installments',
@@ -103,7 +103,7 @@ export async function getInstallmentPlan(id: string): Promise<InstallmentPlan | 
  */
 export async function getInstallmentPlanWithDetails(id: string): Promise<TUserInstallment | null> {
   const response = await fetchWithErrorHandling<TUserInstallment | null>(
-    `${API_URL}/installment_plans/${id}?_embed=institution&_embed=plan`,
+    `${API_URL}/installment_plans/${id}?_expand=institution&_expand=plan`,
     {
       cache: 'force-cache',
       errorContext: 'fetch installment plan with details',

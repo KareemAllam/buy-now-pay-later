@@ -11,15 +11,17 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
+import { Locale } from '@/proxy';
 
 const languages = [
-  { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'en', name: 'English', flag: '🇺🇸' },
   { code: 'ar', name: 'العربية', flag: '🇸🇦' },
 ] as const;
 
-export function LanguageToggle() {
+export function LanguageToggle({ lang }: { lang: Locale }) {
   const pathname = usePathname();
-  const currentLocale = pathname?.split('/')[1] || 'en';
+  const currentLocale = lang;
+  const isRtl = currentLocale === 'ar';
 
   const redirectedPathname = (locale: string) => {
     if (!pathname) return '/';
@@ -41,7 +43,7 @@ export function LanguageToggle() {
           <span className="sr-only">Change language</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-40">
+      <DropdownMenuContent align={isRtl ? 'start' : 'end'} className="min-w-40">
         {languages.map((language) => {
           const isActive = language.code === currentLocale;
           return (

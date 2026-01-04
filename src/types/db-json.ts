@@ -23,11 +23,16 @@ export interface Profile {
 export type InstitutionType = 'school' | 'university';
 export type InstitutionGender = 'male' | 'female' | 'mixed';
 
+export interface LocalizedString {
+  en: string;
+  ar: string;
+}
+
 export interface Institution {
   id: string;
-  name: string;
+  name: LocalizedString;
   type: InstitutionType;
-  location: string;
+  location: LocalizedString;
   gender: InstitutionGender;
   is_visible: boolean;
   created_at: string;
@@ -40,7 +45,7 @@ export interface Institution {
 export interface PlanTemplate {
   id: string;
   institution_id: string;
-  name: string;
+  name: LocalizedString;
   total_amount: number;
   installment_count: number;
   created_at: string;

@@ -1,17 +1,16 @@
-import { Dictionary } from '@/app/[lang]/dictionaries';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
 import Link from 'next/link';
 import { LanguageToggle } from '../theme/language-toggle';
+import { getDictionary, type Locale } from '@/app/[lang]/dictionaries';
 
-
-export async function Header({ dict }: { dict: Dictionary }) {
-
+export function Header({ lang }: { lang: Locale }) {
+  const dictionary = getDictionary(lang);
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="container mx-auto px-4 flex h-16 items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold">{dict.header.title}</span>
+          <Link href={`/${lang}`} className="flex items-center space-x-2">
+            <span className="text-xl font-bold">{dictionary.header.title}</span>
           </Link>
           {/* {isAuthenticated && (
             <nav className="flex items-center gap-4">
@@ -57,7 +56,7 @@ export async function Header({ dict }: { dict: Dictionary }) {
         </div>
         <div className="flex items-center gap-4">
           <ThemeToggle />
-          <LanguageToggle />
+          <LanguageToggle lang={lang} />
           {/* <LanguageToggle /> */}
           {/* {isAuthenticated ? (
             <div className="flex items-center gap-4">

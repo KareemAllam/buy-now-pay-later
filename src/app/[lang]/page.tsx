@@ -16,7 +16,7 @@ export default async function Home({ params }: LayoutProps<'/[lang]'>) {
     notFound();
   }
 
-  const dict = await getDictionary(lang);
+  const dict = getDictionary(lang);
 
   return (
     <div className="flex min-h-screen flex-col">

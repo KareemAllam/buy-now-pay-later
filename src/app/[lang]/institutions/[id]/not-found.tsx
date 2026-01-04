@@ -15,7 +15,7 @@ export default async function NotFound({
     notFound();
   }
 
-  const dict = await getDictionary(lang);
+  const dict = getDictionary(lang);
 
   return (
     <main>

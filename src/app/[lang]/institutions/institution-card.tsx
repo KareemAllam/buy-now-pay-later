@@ -4,57 +4,31 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { School, Users, University, MapPin, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { getDictionary } from "../dictionaries";
+import { Locale } from "@/proxy";
 
-const translations: Record<string, Record<string, Record<string, string>>> = {
-  en: {
-    type: {
-      university: "University",
-      school: "School",
-    },
-    gender: {
-      male: "Boys",
-      female: "Girls",
-      mixed: "Mixed",
-    },
-    viewDetails: "View Details",
-  },
-  nl: {
-    type: {
-      university: "Universiteit",
-      school: "School",
-    },
-    gender: {
-      male: "Jongens",
-      female: "Meisjes",
-      mixed: "Gemengd",
-    },
-    viewDetails: "Details bekijken",
-  },
-};
-
-function InstitutionTypeBadge({ type, lang }: { type: InstitutionType; lang: string }) {
-  const t = translations[lang] || translations.en;
+function InstitutionTypeBadge({ type, lang }: { type: InstitutionType; lang: Locale }) {
+  const dictionary = getDictionary(lang).institutions;
   return (
     <Badge variant={type === 'university' ? 'default' : 'secondary'}>
       <School className="mr-1 h-3 w-3" />
-      {t.type[type]}
+      {dictionary.type[type]}
     </Badge>
   );
 }
 
-function GenderBadge({ gender, lang }: { gender: InstitutionGender; lang: string }) {
-  const t = translations[lang] || translations.en;
+function GenderBadge({ gender, lang }: { gender: InstitutionGender; lang: Locale }) {
+  const dictionary = getDictionary(lang).institutions;
   return (
     <Badge variant="outline">
       <Users className="mr-1 h-3 w-3" />
-      {t.gender[gender]}
+      {dictionary.gender[gender]}
     </Badge>
   );
 }
 
-export function InstitutionCard({ institution, lang }: { institution: Institution; lang: string }) {
-  const t = translations[lang] || translations.en;
-  
+export function InstitutionCard({ institution, lang }: { institution: Institution; lang: Locale }) {
+  const dictionary = getDictionary(lang).institutions;
   return (
     <Card
       key={institution.id}
@@ -80,7 +54,7 @@ export function InstitutionCard({ institution, lang }: { institution: Institutio
         {/* Header */}
         <CardHeader className="p-0 mb-3">
           <CardTitle className="text-xl font-bold line-clamp-2 group-hover:text-primary transition-colors">
-            {institution.name}
+            {institution.name[lang]}
           </CardTitle>
         </CardHeader>
 
@@ -88,7 +62,7 @@ export function InstitutionCard({ institution, lang }: { institution: Institutio
         <CardDescription className="flex flex-col gap-3 mb-4 flex-1">
           <div className="flex items-center gap-1.5">
             <MapPin className="h-4 w-4 shrink-0" />
-            <span className="line-clamp-1">{institution.location}</span>
+            <span className="line-clamp-1">{institution.location[lang]}</span>
           </div>
           <div className="flex flex-wrap gap-2">
             <InstitutionTypeBadge type={institution.type} lang={lang} />
@@ -105,7 +79,7 @@ export function InstitutionCard({ institution, lang }: { institution: Institutio
             className="rounded-full"
           >
             <Link href={`/${lang}/institutions/${institution.id}`} className="gap-1.5">
-              {t.viewDetails}
+              {dictionary.viewDetails}
               <ArrowRight className="h-4 w-4 group-hover/button:translate-x-0.5 transition-transform" />
             </Link>
           </Button>

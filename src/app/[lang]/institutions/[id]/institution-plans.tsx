@@ -3,10 +3,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Calendar, DollarSign, CreditCard } from "lucide-react";
 import Link from "next/link";
-import { getDictionary } from "../../dictionaries";
+import { getDictionary, type Locale } from "../../dictionaries";
 
 function formatCurrency(amount: number, locale: string = 'en-US'): string {
-  return new Intl.NumberFormat(locale === 'nl' ? 'nl-NL' : 'en-US', {
+  return new Intl.NumberFormat(locale === 'ar' ? 'ar-SA' : 'en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 0,
@@ -18,8 +18,8 @@ function calculateMonthlyPayment(totalAmount: number, installmentCount: number):
   return Math.round(totalAmount / installmentCount);
 }
 
-export async function InstitutionPlans({ plans, lang }: { plans: PlanTemplate[]; lang: string }) {
-  const dict = await getDictionary(lang as any);
+export function InstitutionPlans({ plans, lang }: { plans: PlanTemplate[]; lang: string }) {
+  const dict = getDictionary(lang as Locale);
 
   if (plans.length === 0) {
     return (
@@ -39,6 +39,9 @@ export async function InstitutionPlans({ plans, lang }: { plans: PlanTemplate[];
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {plans.map((plan) => {
           const monthlyPayment = calculateMonthlyPayment(plan.total_amount, plan.installment_count);
+          const planName = typeof plan.name === 'object'
+            ? plan.name[lang as keyof typeof plan.name] || plan.name.en
+            : plan.name;
 
           return (
             <Card
@@ -46,7 +49,7 @@ export async function InstitutionPlans({ plans, lang }: { plans: PlanTemplate[];
               className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col"
             >
               <CardHeader>
-                <CardTitle className="text-xl font-bold">{plan.name}</CardTitle>
+                <CardTitle className="text-xl font-bold">{planName}</CardTitle>
                 <CardDescription className="text-base font-semibold text-foreground mt-2">
                   {formatCurrency(plan.total_amount, lang)}
                 </CardDescription>

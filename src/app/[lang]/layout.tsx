@@ -4,7 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { Header } from "@/components/layout/header";
-import { getDictionary, hasLocale } from "./dictionaries";
+import { hasLocale } from "./dictionaries";
 import { notFound } from "next/navigation";
 
 const geistSans = Geist({
@@ -34,7 +34,6 @@ export default async function RootLayout({
     notFound();
   }
   const isRtl = lang === 'ar';
-  const dict = await getDictionary(lang);
 
   return (
     <html lang={lang} suppressHydrationWarning dir={isRtl ? 'rtl' : 'ltr'}>
@@ -47,7 +46,7 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header dict={dict} />
+          <Header lang={lang} />
           {children}
         </ThemeProvider>
       </body>

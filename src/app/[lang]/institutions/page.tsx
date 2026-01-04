@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { School } from "lucide-react";
-import { getInstitutions } from "@/services/institutions";
+import { getVisibleInstitutions } from "@/services/institutions";
 import { getDictionary, hasLocale } from "../dictionaries";
 import { notFound } from "next/navigation";
 import { InstitutionsTabs } from "./institutions-tabs";
@@ -19,7 +19,7 @@ export async function generateMetadata({
     };
   }
 
-  const dict = await getDictionary(lang);
+  const dict = getDictionary(lang);
 
   return {
     title: dict.institutions.title,
@@ -38,8 +38,8 @@ export default async function InstitutionsPage({
     notFound();
   }
 
-  const dict = await getDictionary(lang);
-  const institutions = await getInstitutions();
+  const dict = getDictionary(lang);
+  const institutions = await getVisibleInstitutions();
 
   return (
     <main>

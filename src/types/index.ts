@@ -27,5 +27,8 @@ export type {
   ProfileRole,
   InstitutionType,
   InstallmentPlanStatus,
+  LocalizedString,
+  TransformedInstitution,
+  TransformedPlanTemplate,
 } from './db-json';
 

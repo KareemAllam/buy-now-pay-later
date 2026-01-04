@@ -10,18 +10,30 @@
   "institutions": [
     {
       "id": "inst1",
-      "name": "Green Valley High",
+      "name": {
+        "en": "Green Valley High",
+        "ar": "مدرسة جرين فالي"
+      },
       "type": "school",
-      "location": "New York",
+      "location": {
+        "en": "New York",
+        "ar": "نيويورك"
+      },
       "gender": "mixed",
       "is_visible": true,
       "created_at": "2024-01-01T08:00:00Z"
     },
     {
       "id": "inst2",
-      "name": "Tech State University",
+      "name": {
+        "en": "Tech State University",
+        "ar": "جامعة ولاية التكنولوجيا"
+      },
       "type": "university",
-      "location": "California",
+      "location": {
+        "en": "California",
+        "ar": "كاليفورنيا"
+      },
       "gender": "mixed",
       "is_visible": true,
       "created_at": "2024-01-01T08:30:00Z"
@@ -30,24 +42,33 @@
   "plans": [
     {
       "id": "plan_template_1",
-      "institution_id": "inst1",
-      "name": "Standard High School Year",
+      "institutionId": "inst1",
+      "name": {
+        "en": "Standard High School Year",
+        "ar": "السنة الدراسية الثانوية القياسية"
+      },
       "total_amount": 12000,
       "installment_count": 10,
       "created_at": "2024-01-01T09:00:00Z"
     },
     {
       "id": "plan_template_2",
-      "institution_id": "inst2",
-      "name": "Undergraduate Semester",
+      "institutionId": "inst2",
+      "name": {
+        "en": "Undergraduate Semester",
+        "ar": "فصل دراسي جامعي"
+      },
       "total_amount": 25000,
       "installment_count": 4,
       "created_at": "2024-01-01T09:00:00Z"
     },
     {
       "id": "plan_template_3",
-      "institution_id": "inst2",
-      "name": "Undergraduate Full Year",
+      "institutionId": "inst2",
+      "name": {
+        "en": "Undergraduate Full Year",
+        "ar": "سنة جامعية كاملة"
+      },
       "total_amount": 48000,
       "installment_count": 12,
       "created_at": "2024-01-01T09:00:00Z"
@@ -57,7 +78,7 @@
     {
       "id": "app1",
       "user_id": "u1",
-      "institution_id": "inst2",
+      "institutionId": "inst2",
       "selected_plan_id": "plan_template_2",
       "status": "approved",
       "tuition_amount": 25000,

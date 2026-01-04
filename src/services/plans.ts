@@ -1,8 +1,8 @@
 import { CacheTagKeys } from "@/lib/tagKeys";
-import { PlanTemplate } from "@/types";
+import { PlanTemplate } from "@/types/db-json";
 import { NetworkError, BackendError } from "@/lib/errors";
 
-export async function getPlansOfInstitution(institution_id: string) {
+export async function getPlansOfInstitution(institution_id: string): Promise<PlanTemplate[]> {
   try {
     const response = await fetch(
       process.env.NEXT_PUBLIC_API_URL + '/plans' + '?institution_id=' + institution_id,
@@ -23,7 +23,7 @@ export async function getPlansOfInstitution(institution_id: string) {
         response.statusText
       );
     }
-    const plans: PlanTemplate[] = await response.json();
+    const plans: Array<PlanTemplate> = await response.json();
     return plans;
   } catch (error) {
     console.error('Failed to fetch plans:', error);
